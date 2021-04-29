@@ -1,0 +1,1437 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\series bold
+\size huge
+\emph on
+\noun on
+EE2703: Applied Programming Lab
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\size huge
+\emph on
+\noun on
+Week 7: Solving Laplace Transforms Using Sympy
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Author: Surya Prasad S, EE19B121
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+25th April, 2021
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+\size largest
+Abstract:
+\end_layout
+
+\begin_layout Standard
+\align left
+
+\size large
+In this week's assignment we shall analyse Active Filters using Laplace
+ Transform.
+ We shall explore the algebraic capabilities of Symbolic algebra of Python.
+ For solving the system we shall continue using SciPy's signal library.
+ Here we shall only consider filters made using OpAmps and specifically
+ the Active Lowpass Filter and Active Highpass Filter.
+\end_layout
+
+\begin_layout Section
+Theory:
+\end_layout
+
+\begin_layout Subsection
+Lowpass Filter:
+\end_layout
+
+\begin_layout Standard
+First we shall analyse a Lowpass Filter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pasted1.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The circuit equations are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{m}=\frac{V_{o}}{G}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{p}=\frac{V_{1}}{1+j\omega R_{2}C_{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{0}=G(V_{p}-V_{m})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{V_{i}-V_{1}}{R_{1}}+\frac{V_{p}-V_{1}}{R_{2}}+j\omega C_{1}(V_{o}-V_{1})=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Solving the above equations we get the transfer function 
+\begin_inset Formula $V_{o}(s)/V_{i}(s)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The approximate expression we get is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{o}≈\frac{V_{i}}{1+j\omega R_{1}C_{1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is assuming 
+\begin_inset Formula $R_{1}=R_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{1}=C_{2}$
+\end_inset
+
+.
+ So for high frequencies, the signal gets attenuated which is expected as
+ the system is a Lowpass Filter.
+\end_layout
+
+\begin_layout Subsection
+Highpass Filter:
+\end_layout
+
+\begin_layout Standard
+For our Highpass Filter we shall consider the following circuit:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pasted2.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The circuit equations are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{m}=\frac{V_{o}}{G}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{p}=\frac{j\omega C_{2}R_{3}V_{1}}{1+j\omega C_{2}R_{3}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{0}=G(V_{p}-V_{m})$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\frac{V_{o}-V_{1}}{R_{1}}+j\omega C_{1}(V_{i}-V_{1})+j\omega C_{2}(V_{p}-V_{1})=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Solving the above equations we get the transfer function 
+\begin_inset Formula $V_{o}(s)/V_{i}(s)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can approximately write this as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{o}=\frac{j\omega R_{1}C_{1}}{1+j\omega R_{1}C_{1}}V_{i}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is assuming 
+\begin_inset Formula $R_{1}=R_{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{1}=C_{2}$
+\end_inset
+
+.
+ So for low frequencies, the signal's gain is very small and gets attenuated
+ which is what we expect from a Highpass Filter.
+\end_layout
+
+\begin_layout Section
+Procedure:
+\end_layout
+
+\begin_layout Subsection
+Libraries Imported:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+import scipy.signal as sp
+\end_layout
+
+\begin_layout Plain Layout
+
+import pylab as p
+\end_layout
+
+\begin_layout Plain Layout
+
+import sympy as sy
+\end_layout
+
+\begin_layout Plain Layout
+
+from sympy.abc import s,t
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Common functions defined:
+\end_layout
+
+\begin_layout Standard
+We shall use the following functions for both Lowpass and Highpass Filters:
+\end_layout
+
+\begin_layout Enumerate
+Function to extract coefficients from symbolic representation of a transfer
+ function and returns LTI class.
+ Code snippet for the function:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def sym_to_sys(sym):
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## First we shall split the symbolic representation into its numerator
+ and denominator
+\end_layout
+
+\begin_layout Plain Layout
+
+    n, d = sy.fraction(sym)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Then we shall extract the polynomial terms from it
+\end_layout
+
+\begin_layout Plain Layout
+
+    n, d = sy.Poly(n, s), sy.Poly(d, s)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Now we can store the coefficients of the terms and then check if
+ the given system can be solved.
+\end_layout
+
+\begin_layout Plain Layout
+
+    ### If valid, then they are used to make the LTI type class
+\end_layout
+
+\begin_layout Plain Layout
+
+    num, den = n.all_coeffs(), d.all_coeffs()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    if len(num) > len(den):
+\end_layout
+
+\begin_layout Plain Layout
+
+        print("Invalid system passed.")
+\end_layout
+
+\begin_layout Plain Layout
+
+        exit()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    H = sp.lti(p.array(num, dtype = float), p.array(den, dtype = float))
+\end_layout
+
+\begin_layout Plain Layout
+
+    return H
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Function to plot Magnitude Response (Bode plot).
+ Code snippet for the function:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def bode_analysis(H, title):
+\end_layout
+
+\begin_layout Plain Layout
+
+    w = p.logspace(0, 12, 1001)
+\end_layout
+
+\begin_layout Plain Layout
+
+    ss = 1j * w
+\end_layout
+
+\begin_layout Plain Layout
+
+    hf = sy.lambdify(s, H, 'numpy')
+\end_layout
+
+\begin_layout Plain Layout
+
+    h = hf(ss)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Plotting in loglog scale (Bode plot)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.figure(0)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.loglog(w, abs(h), lw=2)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.title("Bode plot of the " + title)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.xlabel("Frequency (in rad/s)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.ylabel("Magnitude (in log scale)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.grid(True)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.show()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Function to plot response for a given input signal.
+ Code snippet for the function:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def input_sim(H, Vi, t_range, title, type):
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = sp.lsim(H, Vi, t_range)[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.plot(t_range, Vi, label = 'Input signal')
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.plot(t_range, x, label = 'Output response')
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.title(title + " input signal vs output response of " + type)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.xlabel("time (in s)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.ylabel("Voltage (in V)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.legend()
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.grid(True)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.show()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Function to analyse a given Transfer Function through various plots.
+ Code snippet for the function:
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def plot_analysis(H, Vi, t_range, title):
+\end_layout
+
+\begin_layout Plain Layout
+
+    H_lti = sym_to_sys(H)
+\end_layout
+
+\begin_layout Plain Layout
+
+    bode_analysis(H, title)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Computing and plotting step response
+\end_layout
+
+\begin_layout Plain Layout
+
+    step_response = H * 1/s
+\end_layout
+
+\begin_layout Plain Layout
+
+    step_response_lti = sym_to_sys(step_response)
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = sp.impulse(step_response_lti, None, t_range)[1]
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.figure(1)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.plot(t_range, x)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.title("Step Response of the " + title)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.xlabel("time (in s)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.ylabel("Response (in V)$
+\backslash
+
+\backslash
+rightarrow$")
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.grid(True)
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.show()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Response to a damped low frequency signal
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.figure(2)
+\end_layout
+
+\begin_layout Plain Layout
+
+    V_low_freq = p.exp(-300 * t_range) * p.cos(2 * 10**3 * p.pi * t_range)
+\end_layout
+
+\begin_layout Plain Layout
+
+    input_sim(H_lti, V_low_freq, t_range, "Low frequency", title)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Response to a damped high frequency signal
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.figure(3)
+\end_layout
+
+\begin_layout Plain Layout
+
+    V_high_freq = p.exp(-300 * t_range) * p.cos(2 * 10**6 * p.pi * t_range)
+\end_layout
+
+\begin_layout Plain Layout
+
+    input_sim(H_lti, V_high_freq, t_range, "High frequency", title)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    ## Response to the given input signal
+\end_layout
+
+\begin_layout Plain Layout
+
+    p.figure(4)
+\end_layout
+
+\begin_layout Plain Layout
+
+    input_sim(H_lti, Vi, t_range, "Given", title)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Lowpass Filter:
+\end_layout
+
+\begin_layout Standard
+We shall first define a function to compute the Lowpass Filter's Transfer
+ Function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def lowpass_tf(R1, R2, C1, C2, G):
+\end_layout
+
+\begin_layout Plain Layout
+
+    A = sy.Matrix([[0, 0, 1, -1/G],
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+            [-1/(1 + s * R2 * C2), 1, 0, 0],
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+            [0, -G, G, 1],
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+            [-1/R1 - 1/R2 - s * C1, 1/R2, 0, s * C1]])
+\end_layout
+
+\begin_layout Plain Layout
+
+    b =  sy.Matrix([0, 0, 0, -1/R1])
+\end_layout
+
+\begin_layout Plain Layout
+
+    V = A.inv() * b
+\end_layout
+
+\begin_layout Plain Layout
+
+    return A, b, V
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's look at the plot for the Magnitude Response of the Filter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 2Figure_0.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude Response of Lowpass Filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So for high frequencies the output has a very low gain and gets attenuated.
+\end_layout
+
+\begin_layout Standard
+Now let's look at the step response of the system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 2Figure_1.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Step Response of Lowpass Filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The step response of the system steadies with time giving a constant output.
+ This is expected as Lowpass Filters allow DC power to pass through.
+\end_layout
+
+\begin_layout Standard
+Let's give it a signal with different frequencies.
+ When we pass an input with mixed frequencies, we expect the output to only
+ consist of the lower frequencies.
+ Let's test this out.
+ First we shall pass a low frequency signal and see the output.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 2Figure_2.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Lowpass Filter for low frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The frequency of the signal is 
+\begin_inset Formula $1KHz$
+\end_inset
+
+.
+ The output is starting from zero and has almost quickly stablised to a
+ sinusoidal waveform.
+ Now, let's pass a high frequency signal and see the output.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 2Figure_3.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Lowpass Filter for high frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the frequency is so high (
+\begin_inset Formula $1MHz)$
+\end_inset
+
+ that it appears to be a continous block.
+ The signal got attenuated as expected and we get a 0 output response.
+\end_layout
+
+\begin_layout Standard
+Let's pass the following given input.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $v_{i}=(sin(2000\pi t)+cos(2*10^{6}\pi t))u(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 2Figure_4.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Lowpass Filter for mixed frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the input signal is a combination of two sinusoids, one with low frequency
+ and other with high frequency.
+ The Lowpass Filter will remove the high frequency component and the output
+ will only contain the low frequency component.
+ We should also note that the amplitude of the signal affects the output
+ wave in an almost linear manner and doesn't influence our filter design.
+\end_layout
+
+\begin_layout Subsection
+Highpass Filter
+\end_layout
+
+\begin_layout Standard
+Here also we shall first define a function to compute the Transfer Function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def highpass_tf(R1, R3, C1, C2, G):
+\end_layout
+
+\begin_layout Plain Layout
+
+    A = sy.Matrix([[0, -1, 0, 1/G],
+\end_layout
+
+\begin_layout Plain Layout
+
+        [s * C2 * R3/(s * C2 * R3 + 1), 0, -1, 0],
+\end_layout
+
+\begin_layout Plain Layout
+
+        [0, G, -G, 1],
+\end_layout
+
+\begin_layout Plain Layout
+
+        [-s * C2 -1/R1 - s * C1, 0, s * C2, 1/R1]])
+\end_layout
+
+\begin_layout Plain Layout
+
+    b = sy.Matrix([0, 0, 0, -s * C1])
+\end_layout
+
+\begin_layout Plain Layout
+
+    V = A.inv() * b
+\end_layout
+
+\begin_layout Plain Layout
+
+    return A, b, V
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let's look at the plot for the Magnitude Response of the Filter.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 4Figure_0.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude Response of Highpass Filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So here for low frequencies the output gets attenuated.
+\end_layout
+
+\begin_layout Standard
+Now let's look at the step response of the system.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 4Figure_1.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Step Response of Highpass Filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is an initial impulse response from the system but at steady state
+ the output becomes 0.
+\end_layout
+
+\begin_layout Standard
+Let's now give the Highpass Filter a signal with different frequencies.
+ When we pass an input with mixed frequencies, only those components which
+ have frequencies can give an output response and the lower frequency components
+ get attenuated.
+ We shall test this out by passing a low frequency signal and a high frequency
+ signal and see the output response.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 4Figure_2.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Highpass Filter for low frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 4Figure_3.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Highpass Filter for high frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The low frequency input got attenuated very quickly and the high frequency
+ input had a fixed sinusoidal output which decayed with time.
+ Here also the amplitude of the signal affects the output wave in an almost
+ linear manner.
+ Now let's pass the following given input.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $v_{i}=exp(-300*t)*(cos(2000\pi t)+sin(2*10^{6}\pi t))u(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 4Figure_4.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output Response of Highpass Filter for the mixed frequency input
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the input signal is again a combination of two sinusoids, one with
+ a low frequency and other with high frequency.
+ The low frequency component got attenuated as we can see from the graph
+ that the signal is more like a continous block like in Fig.9.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+Thus we have succesfully
+\end_layout
+
+\end_body
+\end_document

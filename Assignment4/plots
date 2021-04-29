@@ -1,0 +1,11 @@
+Figure 1 and 2 ] plotting function itself + modulo 2pi  (exp is semilogy)  [DONE]
+Figure 3 ] magnitude plot for fourier of coscos semilogy [DONE]
+Figure 4 ] magnitude plot for fourier of coscos loglog [DONE]
+Figure 5 ] magnitude plot for fourier of exp semilogy [DONE]
+Figure 6 ] magnitude plot for fourier of exp loglog [DONE]
+Figure 7 ] magnitude plot for fourier of coscos semilogy + lstsq results
+Figure 8 ] magnitude plot for fourier of coscos loglog + lstsq results
+Figure 9 ] magnitude plot for fourier of exp semilogy + lstsq results
+Figure 10 ] magnitude plot for fourier of exp loglog + lstsq results
+Figure 11 and 12 ] plotting function itself + modulo 2pi + Ac result in Q7  (exp is semilogy)
+

@@ -1,0 +1,1590 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size giant
+Assignment 7: 
+\begin_inset Newline linebreak
+\end_inset
+
+Sympy
+\end_layout
+
+\begin_layout Date
+
+\size larger
+April 25, 2021
+\end_layout
+
+\begin_layout Author
+
+\size larger
+Saurav Sachin Kale, EE19B141
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Aim
+\end_layout
+
+\begin_layout Itemize
+To solve and analyse circuits using Laplace Transforms
+\end_layout
+
+\begin_layout Itemize
+To explore symbolic algebra in Python using the SymPy module
+\end_layout
+
+\begin_layout Itemize
+Analysis of Active Filters
+\end_layout
+
+\begin_layout Section
+Procedure
+\end_layout
+
+\begin_layout Subsection
+The Active Lowpass filter
+\end_layout
+
+\begin_layout Standard
+Presented below is a circuit for an active lowpass filter.
+ We shall analyse this in Laplace domain and use SymPy to obtain the solutions
+ for various input signals.
+ Here the values of the components are given to be 
+\begin_inset Formula $G=1.586,R_{1}=R_{2}=10k\Omega,C_{1}=C_{2}=1nF$
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename LowPassCkt.png
+	scale 90
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Analysing in laplace domain we obtain the following equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{m}=\frac{V_{o}}{G}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{1}(\frac{1}{R_{2}}+\frac{1}{R_{1}}+C_{1}s)-\frac{V_{i}}{R_{1}}-C_{1}sV_{o}-\frac{V_{p}}{R_{2}}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{p}=\frac{V_{1}}{1+R_{2}C_{2}s}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{o}=G(V_{p}-V_{m})
+\end{equation}
+
+\end_inset
+
+Expressing these equations in matrix form, we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left[\begin{array}{cccc}
+0 & 0 & 1 & -\frac{1}{G}\\
+-\frac{1}{1+R_{2}C_{2}s} & 1 & 0 & 0\\
+0 & -G & G & 1\\
+(\frac{1}{R_{2}}+\frac{1}{R_{1}}+C_{1}s) & -\frac{1}{R_{2}} & 0 & -C_{1}s
+\end{array}\right]\left[\begin{array}{c}
+V_{1}\\
+V_{p}\\
+V_{m}\\
+V_{o}
+\end{array}\right]=\left[\begin{array}{c}
+0\\
+0\\
+0\\
+\frac{V_{i}}{R_{1}}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Av=b
+\]
+
+\end_inset
+
+Now we can solve this matrix equation for any given input signal 
+\begin_inset Formula $V_{i}$
+\end_inset
+
+ to obtain the matrix 
+\begin_inset Formula $v$
+\end_inset
+
+.
+ The last element of 
+\begin_inset Formula $v$
+\end_inset
+
+ is the output.
+ We shall now solve this using SymPy for a variety of input signals.
+\end_layout
+
+\begin_layout Itemize
+We first define the function 
+\family typewriter
+lowpass()
+\family default
+ which generates the matrices 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ for given system parameters, solves for 
+\begin_inset Formula $v$
+\end_inset
+
+ and returns all 3 matrices.
+ 
+\family typewriter
+s
+\family default
+ is defined as a SymPy symbol here.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# lowpass filter circuit
+\end_layout
+
+\begin_layout Plain Layout
+
+def lowpass(R1, R2, C1, C2, G, Vi):
+\end_layout
+
+\begin_layout Plain Layout
+
+    A = sy.Matrix([[0, 0, 1, -1/G], [-1/(1+R2*C2*s), 1, 0, 0], 
+\end_layout
+
+\begin_layout Plain Layout
+
+			[0, -G, G, 1], [(1/R1 + 1/R2 + C1*s), -1/R2, 0, -C1*s]])
+\end_layout
+
+\begin_layout Plain Layout
+
+    b = sy.Matrix([0, 0, 0, Vi/R1])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    V = A.inv() * b
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+    return A, b, V
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Then we initialize this system with the given parameters, and extract the
+ actual output signal in terms of s.
+ 
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+A,b,V=lowpass(10000,10000,1e-9,1e-9,1.586,1)
+\end_layout
+
+\begin_layout Plain Layout
+
+Vo = V[3]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We initialize our plotting space in frequency domain to be a logarithmic
+ space from frequency 
+\begin_inset Formula $\omega$
+\end_inset
+
+ of 
+\begin_inset Formula $1rad/s$
+\end_inset
+
+ to 
+\begin_inset Formula $10^{8}rad/s$
+\end_inset
+
+.
+ We then obtain the values for 
+\family typewriter
+s
+\family default
+ we need for the frequency respose by populating an array with the imaginary
+ values 
+\begin_inset Formula $j\omega$
+\end_inset
+
+ that is the variable 
+\family typewriter
+ss
+\family default
+.
+ 
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ w = p.logspace(0,8,801)
+\end_layout
+
+\begin_layout Plain Layout
+
+ ss = complex(0, 1)*w
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We obtain the frequency response by using the function 
+\family typewriter
+lambdify()
+\family default
+ which converts the SymPy transfer function to a lambda function which can
+ be evaluated for all 
+\begin_inset Formula $\omega$
+\end_inset
+
+ in our logspace.
+ 
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+hf = sy.lambdify(s, Vo, 'numpy')
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We obtain the magnitude response by evaluating the absolute value of frequency
+ response for our logspace 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ We then generate the magnitude plot of this system.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+v = hf(ss)
+\end_layout
+
+\begin_layout Plain Layout
+
+p.loglog(w,abs(v),lw=2)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_1.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude of Frequency Response of Active Lowpass filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+As expected, it is a lowpass filter.
+\end_layout
+
+\begin_layout Itemize
+We shall now evaluate the step response of this lowpass filter.
+\end_layout
+
+\begin_layout Itemize
+We know that the laplace transform of the unit step function is 
+\begin_inset Formula $\frac{1}{s}$
+\end_inset
+
+.
+ For step response, we will simply multiply the function with 
+\begin_inset Formula $\frac{1}{s}$
+\end_inset
+
+ to obtain the laplace transform of the output.
+ 
+\end_layout
+
+\begin_layout Itemize
+We want to obtain the time domain output.
+ Therefore we must first convert the SymPy transfer function into a 
+\family typewriter
+scipy.signal.lti
+\family default
+ object.
+ We will then use 
+\family typewriter
+scipy.signal.impulse()
+\family default
+ to obtain the time domain function for a given time interval.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+t = p.linspace(0, 0.001, 1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+StepResponse_SDomain = convertSympyToLTI(Vo * 1/s)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, StepResponse = sp.impulse(StepResponse_SDomain, None, t)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The conversion from SymPy function to 
+\family typewriter
+scipy.signal.lti
+\family default
+ object is quite simple.
+ We have made a function 
+\family typewriter
+convertSympyToLTI()
+\family default
+ for this purpose.
+ We simply obtain the coefficients on both numerator and denominator side
+ by first extracting the polynomials, then obtaining all coefficients.
+\end_layout
+
+\begin_layout Itemize
+We then create our new 
+\family typewriter
+scipy.signal.lti
+\family default
+ object with these arrays
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# converts a sympy transfer function to a scipy.signal.lti object
+\end_layout
+
+\begin_layout Plain Layout
+
+def convertSympyToLTI(H):
+\end_layout
+
+\begin_layout Plain Layout
+
+    # fraction function: Returns a pair with 
+\end_layout
+
+\begin_layout Plain Layout
+
+	# expressions numerator and denominator.
+\end_layout
+
+\begin_layout Plain Layout
+
+    n, d = sy.fraction(H)
+\end_layout
+
+\begin_layout Plain Layout
+
+    # convert those to polynomials
+\end_layout
+
+\begin_layout Plain Layout
+
+    polynum = sy.poly(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+    polyden = sy.poly(d)
+\end_layout
+
+\begin_layout Plain Layout
+
+    # get arrays for their coefficients
+\end_layout
+
+\begin_layout Plain Layout
+
+    numCoeff = polynum.all_coeffs()
+\end_layout
+
+\begin_layout Plain Layout
+
+    denCoeff = polyden.all_coeffs()
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # feed the coefficient arrays into sp.lti to get an 
+\end_layout
+
+\begin_layout Plain Layout
+
+	# lti system object with the transfer function H
+\end_layout
+
+\begin_layout Plain Layout
+
+    H_lti = sp.lti(p.array(numCoeff, dtype=float), 
+\end_layout
+
+\begin_layout Plain Layout
+
+					p.array(denCoeff, dtype=float))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    return H_lti
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We have obtain the time domain function for step response.
+ We now plot it.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_2.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Time domain Step Response for Active Lowpass filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Now we analyse the output of the system for
+\begin_inset Formula 
+\[
+V_{i}(t)=(sin(2000\pi t)+cos(2\times10^{6}\pi t))u(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Here we will not be converting 
+\begin_inset Formula $V_{i}$
+\end_inset
+
+ to laplace domain.
+ Instead, we will now use 
+\family typewriter
+scipy.signal.lsim()
+\family default
+ to directly evaluate the convolution of impulse response and the input
+ signal.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+t = p.linspace(0,0.01,100000)
+\end_layout
+
+\begin_layout Plain Layout
+
+Vinp = p.sin(2e3*p.pi*t)+p.cos(2e6*p.pi*t)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, Vout, svec = sp.lsim(convertSympyToLTI(Vo), Vinp, t)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We obtain the following plot:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_3.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Time domain output 
+\begin_inset Formula $V_{o}(t)$
+\end_inset
+
+ for the input 
+\begin_inset Formula $V_{i}(t)=(sin(2000\pi t)+cos(2\times10^{6}\pi t))u(t)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Again, the plot is as expected, since 
+\begin_inset Formula $10^{6}rad/s$
+\end_inset
+
+ is severely attenuated, we see only the 
+\begin_inset Formula $10^{3}rad/s$
+\end_inset
+
+ component which survives since it is comfortably within the 3dB bandwidth.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The Active Highpass filter
+\end_layout
+
+\begin_layout Standard
+Presented below is a circuit for an active highpass filter.
+ We shall analyse this in Laplace domain and use SymPy to obtain the solutions
+ for various input signals.
+ Here the values of the components are given to be 
+\begin_inset Formula $G=1.586,R_{1}=R_{3}=10k\Omega,C_{1}=C_{2}=1nF$
+\end_inset
+
+.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename HighPassCkt.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\end_layout
+
+\end_inset
+
+Analysing in laplace domain we obtain the following equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{m}=\frac{V_{o}}{G}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{1}(C_{2}s+\frac{1}{R_{1}}+C_{1}s)-C_{1}sV_{i}-\frac{V_{o}}{R_{1}}-C_{2}sV_{p}=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{p}=\frac{R_{3}C_{2}sV_{1}}{1+R_{3}C_{2}s}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+V_{o}=G(V_{p}-V_{m})
+\end{equation}
+
+\end_inset
+
+Expressing these equations in matrix form, we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left[\begin{array}{cccc}
+0 & 0 & 1 & -\frac{1}{G}\\
+-\frac{R_{3}C_{2}s}{1+R_{3}C_{2}s} & 1 & 0 & 0\\
+0 & -G & G & 1\\
+(C_{2}s+\frac{1}{R_{1}}+C_{1}s) & -C_{2}s & 0 & -\frac{1}{R_{1}}
+\end{array}\right]\left[\begin{array}{c}
+V_{1}\\
+V_{p}\\
+V_{m}\\
+V_{o}
+\end{array}\right]=\left[\begin{array}{c}
+0\\
+0\\
+0\\
+C_{1}sV_{i}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Av=b
+\]
+
+\end_inset
+
+Now we can solve this matrix equation for any given input signal 
+\begin_inset Formula $V_{i}$
+\end_inset
+
+ to obtain the matrix 
+\begin_inset Formula $v$
+\end_inset
+
+.
+ The last element of 
+\begin_inset Formula $v$
+\end_inset
+
+ is the output.
+ We shall now solve this using SymPy for a variety of input signals.
+\end_layout
+
+\begin_layout Itemize
+We create a 
+\family typewriter
+highpass()
+\family default
+ function for the transfer function which accepts circuit parameters and
+ solves for the 
+\begin_inset Formula $v$
+\end_inset
+
+ matrix.
+ It returns 
+\begin_inset Formula $A,b$
+\end_inset
+
+ as well as 
+\begin_inset Formula $v$
+\end_inset
+
+ matrices.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# highpass filter circuit
+\end_layout
+
+\begin_layout Plain Layout
+
+def highpass(R1, R3, C1, C2, G, Vi):
+\end_layout
+
+\begin_layout Plain Layout
+
+    A = sy.Matrix([[0, 0, 1, -1/G], [-R3*C2*s/(1+R3*C2*s), 1, 0, 0], 
+\end_layout
+
+\begin_layout Plain Layout
+
+			[0, -G, G, 1], [(C1*s + C2*s + 1/R1), -C2*s, 0, -1/R1]])
+\end_layout
+
+\begin_layout Plain Layout
+
+    b = sy.Matrix([0, 0, 0, Vi*s*C1])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    V = A.inv() * b
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    return A, b, V
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We use the same method as explained for lowpass to find and generate the
+ magnitude plot of the transfer function using the 
+\family typewriter
+lambdify()
+\family default
+ function
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# first of all show the magnitude plot
+\end_layout
+
+\begin_layout Plain Layout
+
+A,b,V=lowpass(10000,10000,1e-9,1e-9,1.586,1)
+\end_layout
+
+\begin_layout Plain Layout
+
+print('G=1000')
+\end_layout
+
+\begin_layout Plain Layout
+
+Vo = V[3]
+\end_layout
+
+\begin_layout Plain Layout
+
+print(Vo)
+\end_layout
+
+\begin_layout Plain Layout
+
+w = p.logspace(0,8,801)
+\end_layout
+
+\begin_layout Plain Layout
+
+ss = complex(0, 1)*w
+\end_layout
+
+\begin_layout Plain Layout
+
+hf = sy.lambdify(s, Vo, 'numpy')
+\end_layout
+
+\begin_layout Plain Layout
+
+v = hf(ss)
+\end_layout
+
+\begin_layout Plain Layout
+
+p.loglog(w,abs(v),lw=2)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_4.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude of Frequency Response of Active Highpass filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+As predicted, it is indeed a highpass filter.
+\end_layout
+
+\begin_layout Itemize
+We now analyse the output of the system for the input signal of a decaying
+ sinusoid.
+ First case we will consider a sinusoid of low frequency, here 
+\begin_inset Formula $1Hz$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+V_{i}(t)=e^{-0.5t}sin(2\pi t)
+\]
+
+\end_inset
+
+using the 
+\family typewriter
+scipy.signal.lsim()
+\family default
+ function as follows:
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# output for a decaying sinusoid with
+\end_layout
+
+\begin_layout Plain Layout
+
+# freq = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+# decay factor = 0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+t = p.linspace(0, 5, 1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+Vinp = p.exp(-0.5*t) * p.sin(2*p.pi*t)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, Vout, svec = sp.lsim(convertSympyToLTI(Vo), Vinp, t)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_5.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Time domain output 
+\begin_inset Formula $V_{o}(t)$
+\end_inset
+
+ for the input 
+\begin_inset Formula $V_{i}(t)=e^{-0.5t}sin(2\pi t)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The system almost completely cuts out this frequency because 
+\begin_inset Formula $2\pi rad/s$
+\end_inset
+
+ is very low frequency which is attenuated heavily, hence the highpass filter
+ shows no output.
+\end_layout
+
+\begin_layout Itemize
+Let us now test this for a high frequency (within the passband).
+ Let us consider 
+\begin_inset Formula $10^{6}Hz$
+\end_inset
+
+.
+\begin_inset Formula 
+\[
+V_{i}(t)=e^{-0.5t}sin(2\times10^{6}\pi t)
+\]
+
+\end_inset
+
+
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# output for a decaying sinusoid with
+\end_layout
+
+\begin_layout Plain Layout
+
+# freq = 1e6
+\end_layout
+
+\begin_layout Plain Layout
+
+# decay factor = 0.5
+\end_layout
+
+\begin_layout Plain Layout
+
+t = p.linspace(0, 0.0001, 10000)
+\end_layout
+
+\begin_layout Plain Layout
+
+Vinp = p.exp(-0.5*t) * p.sin(2e6*p.pi*t)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, Vout, svec = sp.lsim(convertSympyToLTI(Vo), Vinp, t)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_6.png
+	scale 78
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Time domain output 
+\begin_inset Formula $V_{o}(t)$
+\end_inset
+
+ for the input 
+\begin_inset Formula $V_{i}(t)=e^{-0.5t}sin(2\times10^{6}\pi t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_6b.png
+	scale 78
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A zoomed in look at Figure 6
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We can see that the signal survives, albeit it is slightly attenuated because
+ at 
+\begin_inset Formula $2\times10^{6}\pi rad/s$
+\end_inset
+
+ the gain is just smaller than 0dB.
+ 
+\end_layout
+
+\begin_layout Itemize
+This is expected, because the frequency is within the passband of the highpass
+ filter.
+\end_layout
+
+\begin_layout Itemize
+We now analyse the step response of this system in the same way we did for
+ lowpass filter, using 
+\family typewriter
+scipy.signal.impulse()
+\family default
+
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# now we obtain the step response
+\end_layout
+
+\begin_layout Plain Layout
+
+t = p.linspace(0, 0.001, 1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+StepResponse_SDomain = convertSympyToLTI(Vo * 1/s)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, StepResponse = sp.impulse(StepResponse_SDomain, None, t)
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_7.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Time domain Step Response for Active Highpass filter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The reason for the initial peak is the initial conditions.
+ The capacitor does not allow instantaneous changes in the voltage across
+ it.
+ Before 
+\begin_inset Formula $t=0$
+\end_inset
+
+, both capacitors have no charge, and the voltage across both is 0, and
+ this will not change instantaneously.
+\end_layout
+
+\begin_layout Itemize
+Refering to the circuit diagram, the instant the 1V of the unit step is
+ applied (
+\begin_inset Formula $t=0^{+}$
+\end_inset
+
+), the drop across the capacitors 
+\begin_inset Formula $C_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $C_{2}$
+\end_inset
+
+ will still be zero.
+ Thereform 
+\begin_inset Formula $V_{m}=1V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $V_{m}=\frac{V_{o}}{G}$
+\end_inset
+
+ and 
+\begin_inset Formula $V_{o}=G(V_{p}-V_{m})$
+\end_inset
+
+, therefore we get
+\begin_inset Formula 
+\[
+V_{0}=G(1-\frac{V_{o}}{G})
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+2V_{o}=G
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+V_{o}=\frac{G}{2}=\frac{1.586}{2}=0.793\approx0.8V
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This is what explains the initial peaking of 0.8V.
+ It then quickly decays and settles down to the expected 0V because it is
+ a highpass filter, and DC will give no output on such a filter
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+Two electrical systems, the Active Lowpass and Active Highpass filters were
+ analysed using the Laplace Transform.
+\end_layout
+
+\begin_layout Itemize
+The analysis was performed using symbolic algebra in the SymPy module for
+ Python, and Magnitude plots of the frequency response were plotted for
+ both filters.
+\end_layout
+
+\begin_layout Itemize
+SciPy's Signals module was used to obtain time domain solutions for given
+ inputs, and their cutoff frequencies were found.
+\end_layout
+
+\begin_layout Itemize
+The step response of both filters was plotted and analysed.
+\end_layout
+
+\end_body
+\end_document

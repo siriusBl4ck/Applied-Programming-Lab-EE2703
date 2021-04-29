@@ -1,0 +1,1289 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size giant
+Assignment 6L: 
+\begin_inset Newline linebreak
+\end_inset
+
+The Laplace Equation
+\end_layout
+
+\begin_layout Date
+
+\size larger
+April 18, 2021
+\end_layout
+
+\begin_layout Author
+
+\size larger
+Saurav Sachin Kale, EE19B141
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Aim
+\end_layout
+
+\begin_layout Itemize
+Analysis of continuous time linear time invariant (LTI) systems in the Laplace
+ domain
+\end_layout
+
+\begin_layout Itemize
+Exploring SciPy functions for Impulse Response, Convolution, and Bode Plots
+\end_layout
+
+\begin_layout Itemize
+Solving simple linear constant coefficient differential equations with given
+ initial conditions in Laplace Domain
+\end_layout
+
+\begin_layout Section
+Procedure
+\end_layout
+
+\begin_layout Subsection
+The system 
+\begin_inset Formula $\ddot{x}+2.25x=f(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For damping factor 
+\begin_inset Formula $a\in\mathbb{R}$
+\end_inset
+
+We have been given the function 
+\begin_inset Formula $f(t)$
+\end_inset
+
+ as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f(t)=cos(1.5t)e^{-at}u_{0}(t)
+\]
+
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+Taking the laplace transform, we obtain the expression
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F(s)=\frac{s+a}{(s+a)^{2}+2.25}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Now the given differential equation for the system is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ddot{x}+2.25x=f(t)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+With the initial conditions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x(0^{-})=\dot{x}(0^{-})=0
+\]
+
+\end_inset
+
+Taking unilateral laplace transform, we get
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s^{2}X(s)-sx(0^{-})-\dot{x}(0^{-})+2.25X(s)=F(s)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(s^{2}+2.25)X(s)=F(s)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+H(s)=\frac{X(s)}{F(s)}=\frac{1}{s^{2}+2.25}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X(s)=\frac{s+a}{(s^{2}+2.25)((s+a)^{2}+2.25)}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+We now analyse the system for values of 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We now take the case of 
+\begin_inset Formula $a=0.5$
+\end_inset
+
+.
+ We feed the transfer function 
+\begin_inset Formula $X(s)$
+\end_inset
+
+ into a variable, and use the 
+\family typewriter
+sp.impulse()
+\family default
+ function to obtain the time domain function 
+\begin_inset Formula $x(t)$
+\end_inset
+
+, and plot it.
+ We do the same for 
+\begin_inset Formula $a=0.05$
+\end_inset
+
+.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# define the time vector
+\end_layout
+
+\begin_layout Plain Layout
+
+t = np.linspace(0, 50, 1000)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# we write the overall laplace domain expression for X(s)
+\end_layout
+
+\begin_layout Plain Layout
+
+X = sp.lti([1, 0.5], np.polymul([1, 0, 2.25], 
+\end_layout
+
+\begin_layout Plain Layout
+
+	np.polyadd(np.polymul([1, 0.5], [1, 0.5]), [2.25])))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# get the time domain function
+\end_layout
+
+\begin_layout Plain Layout
+
+t, x = sp.impulse(X, None, t) 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_0.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+x(t) plotted vs.
+ time for t = 0 to 50 seconds taking 
+\begin_inset Formula $a=0.5$
+\end_inset
+
+ and 
+\begin_inset Formula $a=0.05$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+From the graph we observe that this is the response of a lossess oscillator
+ driven by a decaying sinusoidal force.
+ If the force decays slowly (
+\begin_inset Formula $a=0.05$
+\end_inset
+
+), it imparts more momentum to the oscillator before decaying.
+ Therefore, the response of the oscillator is of higher magnitude, as is
+ seen in the graph.
+\end_layout
+
+\begin_layout Itemize
+We now plot 
+\begin_inset Formula $x(t)$
+\end_inset
+
+ for varying angular frequency from 1.4 to 1.6 in steps of 0.05 for 
+\begin_inset Formula $a=0.05$
+\end_inset
+
+.
+ We get the following graphs.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_1.png
+	scale 35
+	BoundingBox 20bp 0bp 1848bp 977bp
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Variation in the output for various frequency values of the input force
+ from t = 0 to 50 seconds
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+From the graph we notice that the green curve corresponding to 
+\begin_inset Formula $\omega=1.5$
+\end_inset
+
+ has the highest amplitude, and frequencies both above and below 1.5 have
+ lower amplitudes.
+ This suggests that 
+\begin_inset Formula $\omega=1.5$
+\end_inset
+
+ is closest to the natural frequency of the system.
+ We see that the frequency response function 
+\begin_inset Formula $H(j\omega)$
+\end_inset
+
+ has a double pole at 
+\begin_inset Formula $\omega=1.5$
+\end_inset
+
+, hence the amplitude rises as we move near it.
+\end_layout
+
+\begin_layout Subsection
+Coupled Spring Problem
+\end_layout
+
+\begin_layout Standard
+Given to us is a pair of coupled linear constant coefficient differential
+ equations
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ddot{x}+(x-y)=0
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ddot{y}+2(y-x)=0
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+The initial conditions being:
+\begin_inset Formula 
+\[
+x(0^{-})=1
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\dot{x}(0^{-})=y(0^{-})=\dot{y}(0^{-})=0
+\]
+
+\end_inset
+
+If we take unilateral laplace transform, and apply the initial conditions
+ we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s^{2}X(s)-sx(0^{-})-\dot{x}(0^{-})=Y(s)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(s^{2}+1)X(s)-s=Y(s)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+s^{2}Y(s)-sy(0^{-})-\dot{y}(0^{-})+2Y(s)=2X(s)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+(0.5s^{2}+1)Y(s)=X(s)
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Solving (4) and (5) we obtain the laplace expressions for X and Y:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+X(s)=\frac{(0.5s^{2}+1)s}{(s^{2}+1)(0.5s^{2}+1)-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Y(s)=\frac{s}{(s^{2}+1)(0.5s^{2}+1)-1}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We can now plug these two into our code and use the 
+\family typewriter
+sp.impulse()
+\family default
+ function to obtain the time domain function 
+\begin_inset Formula $x(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $y(t)$
+\end_inset
+
+.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# find the transfer function for X and Y
+\end_layout
+
+\begin_layout Plain Layout
+
+Y = sp.lti([1, 0], np.polyadd(np.polymul([1, 0, 1], [0.5, 0, 1]), [-1]))
+\end_layout
+
+\begin_layout Plain Layout
+
+X = sp.lti(np.polymul([1, 0], [0.5, 0, 1]), 
+\end_layout
+
+\begin_layout Plain Layout
+
+	np.polyadd(np.polymul([1, 0, 1], [0.5, 0, 1]), [-1]))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# get the time domain function
+\end_layout
+
+\begin_layout Plain Layout
+
+t, y = sp.impulse(Y, None, t)
+\end_layout
+
+\begin_layout Plain Layout
+
+t, x = sp.impulse(X, None, t)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Plotting 
+\begin_inset Formula $x(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $y(t)$
+\end_inset
+
+ gives the following results:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_2.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Plot of the signals x(t) and y(t) from 0 to 20 seconds
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+This system behaves like an amplifier.
+ Negative feedback is used to make sure that the amplitude of 
+\begin_inset Formula $y(t)$
+\end_inset
+
+ is twice that of 
+\begin_inset Formula $x(t)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Two port network
+\end_layout
+
+\begin_layout Standard
+\align left
+We are given a two port network whose schematic is shown below
+\end_layout
+
+\begin_layout Standard
+\align left
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename CktModified.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We have to find the Magnitude and Phase response of this system.
+\begin_inset Newline newline
+\end_inset
+
+Converting to laplace domain, we obtain the following impedances assuming
+ initial conditions are all zero, since initially, 
+\begin_inset Formula $V_{in}$
+\end_inset
+
+ is zero according to the given function, and there is a RLC network, so
+ there can be no initial energy stored in inductor or capacitor since it
+ is dissipated by the resistor as heat:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{R}=R
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{L}=sL
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Z_{C}=\frac{1}{sC}
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Now, we use Voltage Divider concept to find the value of 
+\begin_inset Formula $V_{out}$
+\end_inset
+
+ in terms of 
+\begin_inset Formula $V_{in}$
+\end_inset
+
+, and 
+\begin_inset Formula $\frac{V_{out}}{V_{in}}$
+\end_inset
+
+ is the system transfer function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+H(s)=\frac{V_{out}}{V_{in}}=\frac{1}{1+RCs+LCs^{2}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+H(s)=\frac{V_{out}}{V_{in}}=\frac{1}{1+10^{-4}s+10^{-12}s^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We now feed this expression into our code and use the 
+\family typewriter
+sp.bode()
+\family default
+ function to get the magnitude and phase response of this system:
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#define the transfer function
+\end_layout
+
+\begin_layout Plain Layout
+
+H = sp.lti([1], [1e-12, 1e-4, 1])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# get the bode plot
+\end_layout
+
+\begin_layout Plain Layout
+
+w, S, phi = H.bode()
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+w 
+\family default
+is frequency 
+\begin_inset Formula $\omega$
+\end_inset
+
+ over which the function is going to be plotted, 
+\family typewriter
+S
+\family default
+ is the magnitude response, 
+\family typewriter
+phi
+\family default
+ is the phase response.
+ We now plot them.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_3.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude and Phase Response
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The graph for magnitude response shows two bends where the slope changes.
+ After the first pole slope is roughly -20dB/dec and after the second pole
+ it is -40dB/dec This is expected since a second order transfer function
+ has two poles.
+ Similarly each pole contributes a phase angle of 
+\begin_inset Formula $90^{o}.$
+\end_inset
+
+ We can see the phase moves to 
+\begin_inset Formula $-90^{o}$
+\end_inset
+
+after the first pole and near 
+\begin_inset Formula $-180^{0}$
+\end_inset
+
+ for the second pole.
+\end_layout
+
+\begin_layout Itemize
+We are now given the input
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+v_{i}(t)=cos(10^{3}t)u(t)-cos(10^{6}t)u(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We first obtain the output by first defining the time step, and then using
+ 
+\family typewriter
+sp.lsim()
+\family default
+ to calculate both the long term (till 
+\begin_inset Formula $10ms$
+\end_inset
+
+) and short term (till 
+\begin_inset Formula $30\mu s$
+\end_inset
+
+) response:
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#define the transfer function
+\end_layout
+
+\begin_layout Plain Layout
+
+H = sp.lti([1], [1e-12, 1e-4, 1])
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#short term response
+\end_layout
+
+\begin_layout Plain Layout
+
+t = np.linspace(0, 30e-6, 10000)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#define input for short response
+\end_layout
+
+\begin_layout Plain Layout
+
+vi = np.cos(1e3*t)-np.cos(1e6*t)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#perform convolution
+\end_layout
+
+\begin_layout Plain Layout
+
+t, vo, svec = sp.lsim(H, vi, t)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#plotting code omitted, for that check actual code
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# define long term time vector
+\end_layout
+
+\begin_layout Plain Layout
+
+t = np.linspace(0, 1e-2, 10000)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#define input for short response
+\end_layout
+
+\begin_layout Plain Layout
+
+vi = np.cos(1e3*t)-np.cos(1e6*t)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#perform convolution
+\end_layout
+
+\begin_layout Plain Layout
+
+t, vo, svec = sp.lsim(H, vi, t)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+#plotting code omitted, for that check actual code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We now obtain the following plots
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_4.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Short term response (
+\begin_inset Formula $0<t<30\mu s$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_5.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Long term respose (
+\begin_inset Formula $0<t<10ms$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We can see that the short term response has some small amount of sinusoidal
+ noise.
+ But the long term response appears to be a sinusoid of frequency approximately
+ 
+\begin_inset Formula $10^{3}rad/s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+This is expected, since we saw in the magnitude plot that for frequencies
+ beyond 
+\begin_inset Formula $10^{4}rad/s$
+\end_inset
+
+ the system attenuates the response quite appreciably.
+ In fact at 
+\begin_inset Formula $10^{6}rad/s$
+\end_inset
+
+ the signal will be attenuated by as much as 40dB, which explains the very
+ small noise of higher frequency in the output.
+ This magnitude however is negligible compared to the main frequency of
+ 
+\begin_inset Formula $10^{3}rad/s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+This system behaves like a lowpass filter with a 3dB bandwith of 
+\begin_inset Formula $10^{4}rad/s$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+Laplace domain analysis was used to analyse several physical and electrical
+ systems.
+\end_layout
+
+\begin_layout Itemize
+SciPy's signal toolbox functions were used for calculating the impulse response,
+ bode plot and convolution of continuous time LTI systems.
+ Linear Constant Coefficient Differential Equations with known initial condition
+s were solved in Laplace domain using the properties of Unilateral Laplace
+ Transform.
+\end_layout
+
+\begin_layout Itemize
+A pole in a bode plot contributes a slope of -20dB/dec in magnitude plot
+ and a phase shift of 
+\begin_inset Formula $-90^{o}$
+\end_inset
+
+ in phase plot.
+\end_layout
+
+\begin_layout Itemize
+Near a pole the output becomes more amplified and comes closer to instability.
+\end_layout
+
+\begin_layout Itemize
+The concept behind an RLC lowpass filter was used to determine the cutoff
+ frequency and predict the output.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,1150 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification false
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+
+\series bold
+\size huge
+\emph on
+\noun on
+EE2703: Applied Programming Lab
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+\size huge
+\emph on
+\noun on
+Week 4: Fourier Approximations
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+Author: Surya Prasad S, EE19B121
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+March 10, 2021
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\noindent
+
+\series bold
+\size largest
+Abstract
+\size large
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+
+\size large
+In this week's assignment, we shall be fitting two functions, exp(x) and
+ cos(cos(x)) over the interval [0,2
+\begin_inset Formula $\pi$
+\end_inset
+
+) using the fourier series.
+ We calculate the fourier series using scipy.integrate.
+ We also try to linearly approximate the coefficients using least square
+ method and compare it against the true values.
+\end_layout
+
+\begin_layout Section
+\noindent
+
+\series bold
+\size largest
+Theory
+\size large
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+
+\size large
+The fourier series is given by
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\begin{equation}
+a_{0}+\sum\{a_{n}cos(nx)+b_{n}sin(nx)\}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+The coefficients 
+\begin_inset Formula $a_{n}$
+\end_inset
+
+and 
+\begin_inset Formula $b_{n}$
+\end_inset
+
+ are computed by
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+a_{0}=\frac{1}{2\pi}\intop f(x)dx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+a_{n}=\frac{1}{\pi}\intop f(x)cos(nx)dx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+b_{n}=\frac{1}{\pi}\intop f(x)sin(nx)dx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+We use scipy.integrate to compute the integrals and then we store it in a
+ vector of the form
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+\left(\begin{array}{c}
+a_{0}\\
+a_{1}\\
+b_{1}\\
+\ldots\\
+a_{25}\\
+b_{25}
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+We then compute the coefficients using the 
+\begin_inset Quotes eld
+\end_inset
+
+Least Squares approach
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\size default
+Previously, the coefficients for the Fourier Series was calculated using
+ Reimann Integration so it involves a lot of computations.
+ A more efficient approach would be to attempt to get reasonable set of
+ coefficients using the 
+\begin_inset Quotes eld
+\end_inset
+
+Least Squares approach
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Define a vector x going from 0 to 2pi in 400 steps.
+ Evaluate the function f(x) at those values and call it b.
+ Now this function is to be approximated by Eq.
+ (1).
+
+\size large
+ So for each 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ we want
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\begin{equation}
+a_{0}+\sum a_{n}cosnx_{i}+\sum b_{n}sinnx_{i}\HF f(x_{i})
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+Now, turn this into a matrix problem:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+\left(\begin{array}{cccccc}
+1 & cosx_{1} & sinx_{1} & \ldots & cos25x_{1} & sin25x_{1}\\
+1 & cosx_{2} & sinx_{2} & \ldots & cos25x_{2} & sin25x_{2}\\
+\ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
+1 & cosx_{400} & sinx_{400} & \ldots & cos25x_{400} & sin25x_{400}
+\end{array}\right)\left(\begin{array}{c}
+a_{0}\\
+a_{1}\\
+b_{1}\\
+\ldots\\
+a_{25}\\
+b_{25}
+\end{array}\right)=\left(\begin{array}{c}
+f(x_{1})\\
+f(x_{2})\\
+\ldots\\
+f(x_{400})
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+Let's call the matrix on the left side as A.
+ We want to solve
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+Ac=b
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+where c is the vector of Fourier coefficients and b is the vector of the
+ actual functional values.
+\end_layout
+
+\begin_layout Section
+\noindent
+
+\series bold
+\size largest
+Plotting and Code Analysis:
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\series bold
+\size large
+Libraries imported:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+The following libraries are imported:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+import numpy as np 
+\end_layout
+
+\begin_layout Plain Layout
+
+import scipy 
+\end_layout
+
+\begin_layout Plain Layout
+
+import scipy.integrate as integrate 
+\end_layout
+
+\begin_layout Plain Layout
+
+import matplotlib.pyplot as plt 
+\end_layout
+
+\begin_layout Plain Layout
+
+import math
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Constants used in the code:
+\end_layout
+
+\begin_layout Standard
+The following are the constants used in the code:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+PI = np.pi                      # Pi value 
+\end_layout
+
+\begin_layout Plain Layout
+
+N = 100000                      # Number of elements in a vector which is
+ going to be plotted 
+\end_layout
+
+\begin_layout Plain Layout
+
+THRESHOLD = float('1e-12')      # Used to control the error due to integration	
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\series bold
+\size large
+Creating the function:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+We define functions which compute exp(x) and cos(cos(x)) and also plot them.
+ Code snippet for the function definition is:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def e(x):     
+\end_layout
+
+\begin_layout Plain Layout
+
+	return np.exp(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+def cos_cos(x):
+\end_layout
+
+\begin_layout Plain Layout
+
+    return np.cos(np.cos(x))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q1a.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\size large
+Semilogy plot of exp(x)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q1b.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\size large
+Plot of cos(cos(x))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+
+\size large
+As we can see in Figure 1, exp(x) is not a periodic function whereas cos(cos(x))
+ is a periodic function.
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+We shall define another function to convert a given function into a periodic
+ function with the default principle interval [0,2
+\begin_inset Formula $\pi$
+\end_inset
+
+].
+ Here we use the in-built function numpy.remainder to convert all the numbers
+ to the corresponding value in the principle interval.
+ Code snippet for the function to compute for periodic form of a function:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def periodic(func, x, lower_limit = 0, upper_limit = 2 * PI):
+\end_layout
+
+\begin_layout Plain Layout
+
+    return func(np.remainder(x - lower_limit, upper_limit - lower_limit))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q1c.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\size large
+Semilogy plot of periodic(exp(x)) vs exp(x):
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q1d.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size large
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\size large
+Plot of periodic(cos(cos(x))) vs cos(cos(x))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+
+\size large
+As we can see, there is no difference in the plot of periodic(cos(cos(x))
+ and cos(cos(x)).
+ So this shows that cos(cos(x)) is 2
+\begin_inset Formula $\pi$
+\end_inset
+
+ periodic.
+\end_layout
+
+\begin_layout Subsection
+\noindent
+
+\series bold
+\size large
+Obtaining the Fourier Series coefficients:
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+First, we define a function to compute Fourier Series coefficient.
+ Code snippet for function to compute Fourier Series Coefficients:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset listings
+lstparams "breaklines=true"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def Fourier_Series(n, func, lower_limit = 0, upper_limit = 2 * PI):
+\end_layout
+
+\begin_layout Plain Layout
+
+	a = np.zeros(n)
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+	def fcos(x, n, f):         
+\end_layout
+
+\begin_layout Plain Layout
+
+		return f(x) * np.cos(n*x) * (1/PI)
+\end_layout
+
+\begin_layout Plain Layout
+
+	def fsin(x, n, f):
+\end_layout
+
+\begin_layout Plain Layout
+
+		return f(x) * np.sin(n*x) * (1/PI)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	a[0] = integrate.quad(func, lower_limit, upper_limit, epsabs = THRESHOLD)[0]
+ * (1/(2 * PI))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    for i in range(1, n):
+\end_layout
+
+\begin_layout Plain Layout
+
+        if i%2 == 1:
+\end_layout
+
+\begin_layout Plain Layout
+
+            a[i] = integrate.quad(fcos, lower_limit, upper_limit, args =
+ ((i//2 + 1), func), epsabs = THRESHOLD)[0]
+\end_layout
+
+\begin_layout Plain Layout
+
+        else:
+\end_layout
+
+\begin_layout Plain Layout
+
+            a[i] = integrate.quad(fsin, lower_limit, upper_limit, args =
+ (i//2, func), epsabs = THRESHOLD)[0]
+\end_layout
+
+\begin_layout Plain Layout
+
+    return a
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+We use scipy's integrate function to compute the coefficient of the Fourier
+ Series.
+ Integration is calculated by using Reimann's sum.
+ The values are stored in a vector of the form
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size large
+\begin_inset Formula 
+\[
+\left(\begin{array}{c}
+a_{0}\\
+a_{1}\\
+b_{1}\\
+\ldots\\
+a_{25}\\
+b_{25}
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We shall plot these values on semilogy and loglog for both the functions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q3a.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Coefficients of fourier series of $e^x$ on a semilogy scale
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q3b.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Coefficients of fourier series of $e^x$ on a loglog scale
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q3c.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Coefficients of fourier series of $cos(cos(x))$ on a semilogy scale
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\size large
+\begin_inset Graphics
+	filename Q3d.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Coefficients of fourier series of $cos(cos(x))$ on a loglog scale
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We shall treat these values as the true values.
+\end_layout
+
+\begin_layout Subsection
+Obtaining Fourier Series Coefficients using Least Squares Approach:
+\end_layout
+
+\begin_layout Standard
+Previously, the coefficients for the Fourier Series was calculated using
+ Reimann Integration so it involves a lot of computations.
+ A more efficient approach would be to attempt to get reasonable set of
+ coefficients using the 
+\begin_inset Quotes eld
+\end_inset
+
+Least Squares approach
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Define a vector x going from 0 to 2pi in 400 steps.
+ Evaluate the function f(x) at those values and call it b.
+ Now this function is to be approximated by Eq.
+ (1).
+ So for each xi we want
+\end_layout
+
+\end_body
+\end_document

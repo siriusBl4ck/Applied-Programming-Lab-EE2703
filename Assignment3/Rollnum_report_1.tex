@@ -1,0 +1,247 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage[top=1.0in, bottom=1.0in, left=0.8in, right=0.8in]{geometry}
+
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+\usepackage[]{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage{cprotect}
+\usepackage{amsmath, amsfonts}
+\usepackage{siunitx}
+\usepackage{mathrsfs}
+\usepackage{framed}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usepackage{float}
+\usepackage[english]{babel}
+\usepackage{blindtext}
+
+\hyphenpenalty=10000
+
+\newlist{notes}{enumerate}{1}
+\setlist[notes]{label=\textbf{Note:} ,leftmargin=*}
+
+\newlist{hints}{enumerate}{1}
+\setlist[hints]{label=\textbf{Hint:} ,leftmargin=*}
+
+\usepackage{xcolor}
+\usepackage{color}
+\definecolor{com1}{RGB}{125,125,125}
+\definecolor{comment}{RGB}{140,115,115}
+\definecolor{numbering}{rgb}{0.2,0.2,0.2}
+\definecolor{key}{RGB}{0,0,180}
+\definecolor{in}{RGB}{0,100,0}
+\definecolor{out}{RGB}{100,30,30}
+\definecolor{bg}{RGB}{245,245,245}
+\definecolor{bgLight}{RGB}{250,250,250}
+\definecolor{string}{RGB}{0,150,0}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\urlstyle{same}
+
+\usepackage{listings}
+
+\lstdefinestyle{py_code}{ %
+    backgroundcolor=\color{bg},      % choose the background
+    basicstyle=\ttfamily\small,		      % fonts
+    breakatwhitespace=false,         % automatic breaks at whitespace ?
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % caption-position - bottom
+    commentstyle=\itshape\color{comment},    % comment style
+    extendedchars=true,              % use non-ASCII
+    frame=single,	                   % single frame around the code
+    keepspaces=true,                 % keeps spaces in text
+    keywordstyle=\bfseries\color{key},% keyword style
+    language=Python,                 	  % the language of the code
+    morekeywords={Null},       % add more keywords to the set
+    numbers=left,                    % line_numbers (none, left, right)
+    numbersep=10pt,                  % line_no - code dist
+    numberstyle=\footnotesize\color{numbering}, % line_no style
+    rulecolor=\color{black},         % frame_color [!always set]
+    showspaces=false,                % show spaces everywhere
+    showstringspaces=false,          % 
+    showtabs=false,                  % 
+    stepnumber=1,                    % step b/w two line-no
+    stringstyle=\color{string},     % string literal style
+    tabsize=2,	                       % sets default tabsize to 2 spaces
+    title=\lstname,                  % show the filename
+    escapeinside={(*}{*)},			  % escape from style inside (* *)
+    xleftmargin=\parindent,
+    belowskip=-1.3 \baselineskip,
+    aboveskip=1.0 \baselineskip,
+    columns=fullflexible,
+    xleftmargin=0.15in,
+}
+\lstnewenvironment{py_code}
+{\lstset{style=py_code}}
+{}
+
+\lstdefinestyle{psudo}{ %
+    backgroundcolor=\color{bgLight},   % choose the background
+    basicstyle=\ttfamily\small,		      % fonts
+    breakatwhitespace=false,         % automatic breaks at whitespace ?
+    breaklines=true,                 % sets automatic line breaking
+    captionpos=b,                    % caption-position - bottom
+    commentstyle=\itshape\color{com1},          % comment style
+    extendedchars=true,              % use non-ASCII
+    keepspaces=true,                 % keeps spaces in text
+    language=C,                 	  % the language of the code
+    morekeywords={type,NULL, True, False},       % add more keywords to the set
+    showspaces=false,                % show spaces everywhere
+    showstringspaces=false,          % 
+    showtabs=false,                  % 
+    tabsize=2,	                       % sets default tabsize to 2 spaces
+    title=\lstname,                  % show the filename
+    escapeinside={(*}{*)},			  % escape from style inside (* *)
+    belowskip=-1.8 \baselineskip,
+    aboveskip=0.9 \baselineskip,
+    columns=fullflexible,
+    xleftmargin=0.2in,
+    frame=tb,
+    framexleftmargin=16pt,
+    framextopmargin=6pt,
+    framexbottommargin=6pt, 
+    framerule=0pt,
+}
+
+\lstnewenvironment{psudo}
+{\lstset{style=psudo}}
+{}
+
+\graphicspath{ ./ }
+
+
+\title{\textbf{EE2703 : Applied Programming Lab \\ Assignment 3 \\ Fitting Data to Models}} 
+\author{Abhijeet Ajithkumar \\ EE18B121} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}		
+		
+\maketitle % Insert the title, author and date
+
+\section*{Aim}
+This assignment aims to
+\begin{itemize}
+  	\item Take data from a noisy environment and process it
+  	\item Study how to fit the data into a specified model
+	\item Study how noise affects the fitting
+ \end{itemize}
+
+\section*{Procedure}
+Run the code ``generate\_data.py'' to generate a set of data following the equation
+ 
+ \begin{equation}\label{eq:1}
+f(t)=1.05J_{2}(t)-0.105t+n(t)
+ \end{equation}
+ With n(t) being various amounts of noise. The noise in each data set follows the normal disribution,
+ \begin{equation*}
+\mathrm{P}(n(t)|\sigma)=\frac{1}{\sigma\sqrt{2\pi}}\text{exp}\left(-\frac{n(t)^{2}}{2\sigma^{2}}\right)
+ \end{equation*}
+ 
+ where $\sigma$ is generated using python function ``logspace''
+
+\begin{psudo}
+sigma=logspace(-1,-3,9)
+\end{psudo}
+
+This data is to be fitted into the function,
+\begin{equation}\label{eq:2}
+g(t;A,B)=AJ_{2}(t)+Bt
+\end{equation}
+with true values of A and B being
+\begin{equation*}
+A=1.05,\ B=-0.105
+\end{equation*}
+
+In this problem, the values of $t$ are known. So we create matrices $M$ which contains the values of the Bessel function $J_{2}(t)$ and $p$, which contains the values of coefficients $A$ and $B$ to generate the column vector representing the function $g(t;A,B)$ by taking the product of the matrices.
+
+\begin{equation}\label{eq:3}
+g(t;A,B)=
+\begin{pmatrix}
+J_{2}(t_{1}) & t_{1}\\
+... & ... \\
+J_{2}(t_{m}) & t_{m}
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+A\\B
+\end{pmatrix}
+=M\cdot p
+\end{equation}
+
+Next the mean squared error of the data is taken with $A = 0,0.1,...,2$ and $B = -0.2,-0.19,...0$ using the formula
+\begin{equation}\label{eq:4}
+\epsilon_{ij}=\frac{1}{101}\sum_{k=0}^{101}\left(f_{k}-g(t;A,B)\right)^{2}
+\end{equation} 
+ 
+A contour plot of the mean squared error with the values of $A$ and $B$ gives an estimate on the values of A and B where the error approaches 0
+
+An estimate of the value of $A$ and $B$ to fit the given data is found using the method of least squares. This is done using the python command
+
+\begin{psudo}
+numpy.linalg.lstsq(MatrixM,datatobefitted)
+\end{psudo}
+
+This gives an estimate for $A$ and $B$ which minimizes the mean squared error.
+
+\subsection*{Results}
+\begin{enumerate}
+\item The plot of the data to be fitted:
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{Plot1} 
+	\caption{Data Plot}
+	\label{fig:rawdata}
+\end{figure}
+\clearpage
+
+\item Using errorbars to show the deviation from the true value for the data set with the highest standard deviation for noise (0.1)
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{Plot2}
+	\caption{Error Bars}
+	\label{fig:errobars}
+\end{figure}
+
+\item Contour plot of the mean squared error with various values of $A$ and $B$
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{Plot3}
+	\caption{Contour Plot}
+	\label{fig:contour}
+\end{figure}
+the contours seem to converge near the exact value at (1.05,-0.105)
+\clearpage
+\item The plot of variation of error in approximation with the standard deviation of the noise in the data
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{Plot4}
+	\caption{Error Plot}
+	\label{fig:eplot}
+\end{figure}
+This plot shows a sudden increase in the error of $A$ as the standard deviation of the noise increases while the error in the estimation of $B$ remains almost constant
+
+\item The plot of variation of error in approximation with the standard deviation of the noise in the data in logarithmic scale
+\begin{figure}[H]
+	\includegraphics[scale=0.35]{Plot5}
+	\caption{log-log Plot}
+	\label{fig:logplota}
+\end{figure}
+Here, both estimations show an approximately linear variation with the standard deviation of noise.
+\end{enumerate}
+
+\subsection*{Conclusions}
+It is seen that the mean squared error of the data convergers close to the true value and minimizing it using the least squares method gives an estimation with less than 5\% with the data of standard deviation 0.1.\\
+It can also be seen that error in approximation varies almost linearly with the standard deviation of noise in the logarithmic scale.
+
+\end{document}
+
+
+
+ 
