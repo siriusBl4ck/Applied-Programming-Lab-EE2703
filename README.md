@@ -8,6 +8,7 @@ Description : After finishing this course students will
 * able to do linear Least Squares fitting 
 * able to model and simulate simple systems 
 * have a practical knowledge of signal processing  
+* Write detailed documents and model problems using LaTeX
 
 Course Content : 
 * Assignment 1 and 2: Building a circuit solver using the MNA Matrix method, Introduction to Scientific Python 
