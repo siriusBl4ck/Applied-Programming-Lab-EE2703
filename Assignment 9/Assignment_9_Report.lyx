@@ -1,0 +1,1546 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size giant
+Assignment 9: 
+\begin_inset Newline linebreak
+\end_inset
+
+Spectra of non-periodic Signals
+\end_layout
+
+\begin_layout Date
+
+\size larger
+May 12, 2021
+\end_layout
+
+\begin_layout Author
+
+\size larger
+Saurav Sachin Kale, EE19B141
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Aim
+\end_layout
+
+\begin_layout Itemize
+To analyse the magnitude and phase plots of the frequency response of non-period
+ic discrete time signals, and minimize the associated problems which arise
+ from Gibbs phenomenon.
+\end_layout
+
+\begin_layout Itemize
+To perform corrective filtering in order to better extract the frequencies
+ in the non periodic signals by applying a Hamming Window.
+\end_layout
+
+\begin_layout Itemize
+Extracting coefficients in a sinsoid from the frequency response.
+\end_layout
+
+\begin_layout Section
+Procedure
+\end_layout
+
+\begin_layout Subsection
+Analysing the frequency spectrum of 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have the signal 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+.
+ We sample this signal in an interval of 
+\begin_inset Formula $[-\pi,\pi)$
+\end_inset
+
+ and obtain its DFT by using the 
+\family typewriter
+fft()
+\family default
+ and 
+\family typewriter
+fftshift()
+\family default
+ functions, with a small change.
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+y[0] = 0 
+\family default
+is done because the function is odd, but the samples are not symmetric.
+ Unsymmetric samples result in residual components in phase because of the
+ following argument:
+\begin_inset Formula 
+\[
+y[0]=0
+\]
+
+\end_inset
+
+For 
+\begin_inset Formula $i\in\{1,2....,\frac{N}{2}-1\}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+y[i]=-y[N-i]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+y[\frac{N}{2}]=sin(t_{\frac{N}{2}})=sin(-t_{max})
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Y[k]=\sum_{n=0}^{N-1}y[n]exp(-j\frac{2\pi kn}{N})
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Y[k]=\sum_{n=0}^{\frac{N}{2}-1}y[n](exp(j\frac{2\pi kn}{N})-exp(-j\frac{2\pi kn}{N}))+y[\frac{N}{2}]exp(j\pi k)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Y[k]=-2j\sum_{n=0}^{\frac{N}{2}-1}y[n]sin(\frac{2\pi kn}{N})+(-1)^{k}y[\frac{N}{2}]
+\]
+
+\end_inset
+
+We can see that the DFT is not completely imaginary, even if we know CTFT
+ will be purely imaginary, since it is a sinusoid.
+ Hence we need to ensure 
+\begin_inset Formula $y[\frac{N}{2}]=0$
+\end_inset
+
+.
+ That is the purpose behind 
+\family typewriter
+y[0] = 0
+\end_layout
+
+\begin_layout Standard
+With this we obtain the following frequency spectrum
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sinroot2t_withoutHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+ sampled 64 times in an interval of 
+\begin_inset Formula $[-\pi,\pi)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+This is not as expected.
+ We should have got two peaks approximately at 
+\begin_inset Formula $\pm\sqrt{2}.$
+\end_inset
+
+ The reason behind this is that the DFT imposes periodicity in the sampled
+ function despite it being dependent only on the samples.
+ If we look at the region we have sampled, and construct a periodic function
+ with it we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sampledSinroot2t.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Periodic representation of 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Now we can see clearly why we are getting so much variation from the expected
+ plot.
+\end_layout
+
+\begin_layout Itemize
+We observe the discontinuities which happen between each section of 64 samples
+\end_layout
+
+\begin_layout Itemize
+Discontinuities cause Gibbs Phenomenon when signal is reconstructed from
+ transform domain
+\end_layout
+
+\begin_layout Itemize
+This results in significant magnitudes even at higher frequencies
+\end_layout
+
+\begin_layout Standard
+We can see the effect of this by plotting the Magnitude response of the
+ unit Ramp function:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+r(t)=t\textrm{ for }\text{-\ensuremath{\pi<t<\pi}}
+\]
+
+\end_inset
+
+Fourier Series of this ramp is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f(t)=2(\frac{sint}{1}-\frac{sin2t}{2}+\frac{sin3t}{3}-...)
+\]
+
+\end_inset
+
+Frequency samples decay as 
+\begin_inset Formula $\frac{1}{\omega}$
+\end_inset
+
+.
+ That is a slope of -20dB/decade in logarithmic (base 10) scale.
+ If we plot this we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename rmpfunction_magResp.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Magnitude Response for ramp function
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+It is as expected.
+ The big jumps at each period can be interpreted as ramp functions if we
+ join them linearly, and so we get a very slowly decaying response instead
+ of sharp peaks.
+\begin_inset Newline newline
+\end_inset
+
+In order to reduce this variation we multiply a Hamming Window function
+ to our signal in order to minimize this discontinuity.
+ The hamming window function we will be using is the following:
+\begin_inset Formula 
+\[
+w[n]=\begin{cases}
+0.54+0.46cos(\frac{2\pi n}{N-1}) & \textrm{for }|n|\leq\frac{N-1}{2}\\
+0 & \textrm{otherwise }
+\end{cases}
+\]
+
+\end_inset
+
+On multiplying we can see our periodic function now becomes:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sampledSinroot2t_withHamminh.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+New periodic representation of 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+ after applying Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We can see how the discontinuity is minimized.
+ Plotting the DFT for 
+\begin_inset Formula $sin(\sqrt{2}nT_{s})w[n]$
+\end_inset
+
+ we obtain the following frequency spectrum
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sinroot2t_Hamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $sin(\sqrt{2}nT_{s})w[n]$
+\end_inset
+
+ (Hamming windowed function)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Magnitude plot is much closer to our expectations now.
+ But it is still too wide.
+ We need better resolution to get better defined peaks.
+ So we increase the time interval to 
+\begin_inset Formula $[-4\pi,4\pi)$
+\end_inset
+
+ and the samples to 256.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sinroot2t_Hamming_incrRes.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Better resolution plot for 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+ with Hamming window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+This is much better than before.
+ Now we have well defined peaks in the region approximately between 1 and
+ 2 which is what we expect for 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+, because
+\begin_inset Formula 
+\[
+sin(\sqrt{2}t)=\frac{1}{2j}e^{j\sqrt{2}t}-\frac{1}{2j}e^{-j\sqrt{2}t}=-\frac{j}{2}e^{j\sqrt{2}t}+\frac{j}{2}e^{-j\sqrt{2}t}
+\]
+
+\end_inset
+
+We can verify that the phase is also matching.
+ The magnitude will not match because we have multiplied the Hamming window
+ function which imposes its own magnitude.
+ The peak is not for a single value of 
+\begin_inset Formula $\omega$
+\end_inset
+
+ though.
+ It is a wider peak across multiple values of 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ That is due to the fact that whenever the delta function appears in the
+ transform of 
+\begin_inset Formula $sin(\sqrt{2}t)$
+\end_inset
+
+, it convolves with the transform of 
+\begin_inset Formula $w(t)$
+\end_inset
+
+ and result is the transform of 
+\begin_inset Formula $w(t)$
+\end_inset
+
+ appears at that spot.
+\end_layout
+
+\begin_layout Subsection
+Analysing the frequency spectrum of 
+\begin_inset Formula $cos^{3}(0.86t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now have the signal 
+\begin_inset Formula $cos^{3}(0.86t)$
+\end_inset
+
+, and we perform the same procedure on this signal and plot the frequency
+ spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosCube_withoutHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos^{3}(0.86t)$
+\end_inset
+
+ without Hamming window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosCube_Hamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos^{3}(0.86t)$
+\end_inset
+
+ with Hamming window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Which is as expected because:
+\begin_inset Formula 
+\[
+cos(3(0.86)t)=4cos^{3}(0.86t)-3cos(0.86t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos^{3}(0.86t)=\frac{1}{4}cos(3(0.86)t)+\frac{3}{4}cos(0.86t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos^{3}(0.86t)=\frac{1}{8}e^{j3(0.86)t}+\frac{1}{8}e^{-j3(0.86)t}+\frac{3}{8}e^{-j0.86t}+\frac{3}{8}e^{j0.86t}
+\]
+
+\end_inset
+
+We can verify that the peaks are approximately at the correct spot, and
+ the phase also matches.
+\end_layout
+
+\begin_layout Subsection
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have the signal 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ for any arbitrary 
+\begin_inset Formula $\omega_{o}$
+\end_inset
+
+ such that 
+\begin_inset Formula $0.5<\omega_{o}<1.5$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta.$
+\end_inset
+
+ Here we chose 
+\begin_inset Formula $\omega_{o}=0.8$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta=0.78$
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\[
+cos(\omega_{o}t+\delta)=\frac{1}{2}e^{j\delta}e^{j\omega_{o}t}+\frac{1}{2}e^{-j\delta}e^{-j\omega_{o}t}
+\]
+
+\end_inset
+
+Therefore, we expect that the phase of the peaks will be equal to 
+\begin_inset Formula $\delta$
+\end_inset
+
+, and the peaks would be located at 
+\begin_inset Formula $\pm\omega_{o}$
+\end_inset
+
+.
+ We use the same procedure to plot the frequency spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosWoDelta_withoutHamminh.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ without Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosWoDelta_Hamminh.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ with Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+In addition to this, we can now use this data to estimate the value of 
+\begin_inset Formula $\omega_{o}$
+\end_inset
+
+ using a wieghted average.
+ We narrow down the location of the peaks by first getting those values
+ of 
+\begin_inset Formula $\omega$
+\end_inset
+
+ for which magnitude is sufficiently high.
+ We then perform a wieghted average with the magnitude squared being the
+ wieght for all the frequencies under the peak.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# estimate the Wo and Delta from the frequency response data
+\end_layout
+
+\begin_layout Plain Layout
+
+def estimateWoAndDelta(w, mag, phase):
+\end_layout
+
+\begin_layout Plain Layout
+
+    # find the location near the peaks
+\end_layout
+
+\begin_layout Plain Layout
+
+    actualMag = p.where(mag > 0.2)
+\end_layout
+
+\begin_layout Plain Layout
+
+    #print(w[actualMag])
+\end_layout
+
+\begin_layout Plain Layout
+
+    # take weighted average across the peaks
+\end_layout
+
+\begin_layout Plain Layout
+
+    wWeightedAvg = p.sum((mag[actualMag]**2) * abs(w[actualMag]))/p.sum(mag[actual
+Mag]**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+    # take simple average of absolute value of the phases at the peaks
+\end_layout
+
+\begin_layout Plain Layout
+
+	# (got better results from simple avg rather than weighted here)
+\end_layout
+
+\begin_layout Plain Layout
+
+    phaseEstimate = p.mean(abs(phase[actualMag]))
+\end_layout
+
+\begin_layout Plain Layout
+
+    # print
+\end_layout
+
+\begin_layout Plain Layout
+
+    print("Estimate for Wo: ", wWeightedAvg)
+\end_layout
+
+\begin_layout Plain Layout
+
+    print("Estimate for delta: ", phaseEstimate)
+\end_layout
+
+\end_inset
+
+For the phase, we take a simple average of absolute values all the values
+ in the peak regions.
+ We do this because since coefficients are real, the negative phases will
+ simply represent the conjugates of the positive phases.
+ So we avoid the zero mean by taking absolute value of phases.
+ We chose to take simple average because it produced better results than
+ wieghted average.
+ We obtain the following output for 
+\begin_inset Formula $cos(0.8t+0.78)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Q3
+\end_layout
+
+\begin_layout Plain Layout
+
+No hamming
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for Wo:  0.75
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for delta:  0.7466104540943095
+\end_layout
+
+\begin_layout Plain Layout
+
+Hamming
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for Wo:  0.75
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for delta:  0.7749261729797845
+\end_layout
+
+\end_inset
+
+Which is very close to the actual values.
+\end_layout
+
+\begin_layout Subsection
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ with added white gaussian noise
+\end_layout
+
+\begin_layout Standard
+We have the signal 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ with added white gaussian noise.
+ We obtain that noise by using the randn() function and the amplitude 0.1
+ as follows
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+def noisyCosW0tPlusDelta(x):
+\end_layout
+
+\begin_layout Plain Layout
+
+	return p.cos(0.8*x + 0.78) + 0.1*p.randn(len(x))
+\end_layout
+
+\end_inset
+
+We now perform the same analysis for this
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosWoDelta_withoutHamming_Noise.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ with noise, without Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosWoDelta_Hamming_Noise.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(\omega_{o}t+\delta)$
+\end_inset
+
+ with noise, with Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+We see that there isn't really much difference in the frequency spectra
+ with or without the noise.
+ Only there is very slight distortion.
+ The estimation data is again quite similar:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Q4
+\end_layout
+
+\begin_layout Plain Layout
+
+No hamming
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for Wo:  0.7500000000000001
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for delta:  0.7428681726674076
+\end_layout
+
+\begin_layout Plain Layout
+
+Hamming
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for Wo:  0.75
+\end_layout
+
+\begin_layout Plain Layout
+
+Estimate for delta:  0.7774617919261039
+\end_layout
+
+\end_inset
+
+We can see that it is quite close to actual values.
+\end_layout
+
+\begin_layout Subsection
+Frequency spectrum of a Chirped signal
+\end_layout
+
+\begin_layout Standard
+We have the signal 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+.
+ This is known as a chirped signal, and its frequency changes.
+ We now plot its frequency response for an interval of 
+\begin_inset Formula $[-\pi,\pi)$
+\end_inset
+
+ and 1024 samples.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chirp_withoutHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+ without Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chirp_withHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency spectrum of 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+ with Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+This is as expected because the frequency response has frequencies from
+ 16 to 32 rad/s.
+ The hamming window further confines the frequencies in that range.
+\end_layout
+
+\begin_layout Subsection
+Time Frequency Plot of a Chirped signal
+\end_layout
+
+\begin_layout Standard
+We now plot the Time Frequency plot of the signal 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+.
+ We break the interval of 1024 samples from 
+\begin_inset Formula $[-\pi,\pi)$
+\end_inset
+
+ into 16 contiguous pieces of 64 samples each.
+ We then find the DFT of each piece.
+ Since each piece corresponds to a different time interval, we can plot
+ magnitude as a function of time and frequency.
+ We do this in the following way:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+#define the full interval in 1024 samples
+\end_layout
+
+\begin_layout Plain Layout
+
+t_full = p.linspace(-p.pi, p.pi, 1025)[:-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+# split it into 16x64
+\end_layout
+
+\begin_layout Plain Layout
+
+t_broken = p.reshape(t_full, (16, 64))
+\end_layout
+
+\begin_layout Plain Layout
+
+# mag and phase arrays for each interval
+\end_layout
+
+\begin_layout Plain Layout
+
+mags = []
+\end_layout
+
+\begin_layout Plain Layout
+
+phases = []
+\end_layout
+
+\begin_layout Plain Layout
+
+# define the w, sampling frequency is still same, despite the breaking up
+ in 16 intervals
+\end_layout
+
+\begin_layout Plain Layout
+
+w = p.linspace(-512, 512, 65)[:-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+# for each interval we find FFT and append it to mags and phases
+\end_layout
+
+\begin_layout Plain Layout
+
+for t in t_broken:
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = chirp(t)
+\end_layout
+
+\begin_layout Plain Layout
+
+    y[0] = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = p.fftshift(y)
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y = p.fftshift(p.fft(y))/64
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    mags.append(abs(Y))
+\end_layout
+
+\begin_layout Plain Layout
+
+    phases.append(p.angle(Y))
+\end_layout
+
+\begin_layout Plain Layout
+
+    
+\end_layout
+
+\begin_layout Plain Layout
+
+mags = p.array(mags)
+\end_layout
+
+\begin_layout Plain Layout
+
+phases = p.array(phases)
+\end_layout
+
+\end_inset
+
+We now plot magnitude and phase surfaces.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename surfNoHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Time surface of 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+ without Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename surfHamming.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Time surface of 
+\begin_inset Formula $cos(16(1.5+\frac{t}{2\pi})t)$
+\end_inset
+
+ with Hamming Window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+This is how the DFT varies with time.
+ The gap between the peaks increases with time.
+ The hamming window narrows down the peaks a little more.
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+The spectra of several non periodic signals were plotted
+\end_layout
+
+\begin_layout Itemize
+The effect of discontinuities is clearly seen, understood, and minimized
+ by applying a hamming window.
+ This results in more well defined peaks
+\end_layout
+
+\begin_layout Itemize
+Extracting coefficients using the frequency spectrum of a sinusoid was done
+ using averaging methods on the DFT data to sufficient accuracy.
+\end_layout
+
+\begin_layout Itemize
+The Time Frequency surface plot of a chirped signal was analysed to understand
+ the time variation of the DFT
+\end_layout
+
+\end_body
+\end_document

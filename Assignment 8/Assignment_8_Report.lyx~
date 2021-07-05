@@ -1,0 +1,1303 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size giant
+Assignment 8: 
+\begin_inset Newline linebreak
+\end_inset
+
+The Digital Fourier Transform
+\end_layout
+
+\begin_layout Date
+
+\size larger
+May 5, 2021
+\end_layout
+
+\begin_layout Author
+
+\size larger
+Saurav Sachin Kale, EE19B141
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Aim
+\end_layout
+
+\begin_layout Itemize
+To plot the discrete fourier transform of given functions using the fft
+ functions in PyLab Module in Python
+\end_layout
+
+\begin_layout Itemize
+Understand the effect of sampling rate, time interval being transformed
+ to frequency domain on the Discrete Fourier Transform (DFT)
+\end_layout
+
+\begin_layout Itemize
+Finding the time interval for the lowest error in the calculated fourier
+ transform and the DFT obtained from fft function.
+\end_layout
+
+\begin_layout Section
+Procedure
+\end_layout
+
+\begin_layout Subsection
+Analysis of the signal 
+\begin_inset Formula $sin(5t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are given the signal 
+\begin_inset Formula $sin(5t)$
+\end_inset
+
+.
+ If we extract the frequency components we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+sin(5t)=\frac{1}{2j}e^{j5t}-\frac{1}{2j}e^{-j5t}=-\frac{j}{2}e^{j5t}+\frac{j}{2}e^{-j5t}
+\]
+
+\end_inset
+
+Expectations for the magnitude plot are two peaks of hieght 0.5 at 5 and
+ -5.
+ For the phase plot, we expect a phase of 
+\begin_inset Formula $-\frac{\pi}{2}$
+\end_inset
+
+ for the peak at 5 and 
+\begin_inset Formula $\frac{\pi}{2}$
+\end_inset
+
+ for the peak at -5.
+ We find the frequency spectrum by using the fft() function, and without
+ any changes plot the magnitude and phase plot of the result we get.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sin5t_WithoutCorrection.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of 
+\begin_inset Formula $sin(5t)$
+\end_inset
+
+ without any changes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+But the results are not as expected.
+ This is because of the following reasons:
+\end_layout
+
+\begin_layout Itemize
+The peaks are not where they were expected: fft plots the frequency function
+ from 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $2\pi$
+\end_inset
+
+ without centering the zero mark.
+ Therefore our x axis is not indicative of frequency, it is simply the number
+ of samples.
+ We need to shift the plot and center the 0 point so we get x axis going
+ from 
+\begin_inset Formula $-\pi$
+\end_inset
+
+ to 
+\begin_inset Formula $\pi$
+\end_inset
+
+.
+ We will do that using a function called fftshift().
+ This function recenters the 0 mark in the output of fft().
+\end_layout
+
+\begin_layout Itemize
+The values of magnitude are not as expected: fft() function output is basically
+ a plot of how many samples correspond to a given frequency component.
+ Here, since amplitude of 5 and -5 is same and we have 128 samples, we have
+ got exactly 64 samples on each component.
+ So we need to normalize this with respect to the total number of samples.
+ We do this by dividing the output by the number of samples (here 128).
+\end_layout
+
+\begin_layout Standard
+On making these changes, we obtain the following plot.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sin5t_WithCorrection.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of 
+\begin_inset Formula $sin(5t)$
+\end_inset
+
+ with corrections
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+This plot is exactly as expected in both phase and magnitude.
+\end_layout
+
+\begin_layout Subsubsection
+The plotFT function
+\end_layout
+
+\begin_layout Standard
+We will now create a function which given the following parameters:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $N$
+\end_inset
+
+: the number of samples per cycle
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $xinterval$
+\end_inset
+
+: the time interval for sampling the function (one cycle)
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $signal$
+\end_inset
+
+: the function which will be sampled
+\end_layout
+
+\begin_layout Standard
+Gives back the magnitude and phase of the resulting frequency spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# function to generate the fourier terms from
+\end_layout
+
+\begin_layout Plain Layout
+
+# - a given time domain function
+\end_layout
+
+\begin_layout Plain Layout
+
+# - a given time interval xinterval
+\end_layout
+
+\begin_layout Plain Layout
+
+# - number of samples per cycle
+\end_layout
+
+\begin_layout Plain Layout
+
+def plotFT(signal, xinterval, N):
+\end_layout
+
+\begin_layout Plain Layout
+
+    # initialize the points where we will sample the function.
+\end_layout
+
+\begin_layout Plain Layout
+
+    # size of x is N, since N is number of samples per cycle
+\end_layout
+
+\begin_layout Plain Layout
+
+    x = p.linspace(xinterval[0], xinterval[1], N + 1)[:-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+    w = p.linspace(-p.pi*N/(xinterval[1]-xinterval[0]), p.pi*N/(xinterval[1]-xinter
+val[0]), N + 1)[:-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # sample the function
+\end_layout
+
+\begin_layout Plain Layout
+
+    y = signal(x)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # calculate and normalize the frequency spectrum
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y = p.fftshift(p.fft(y))/N
+\end_layout
+
+\begin_layout Plain Layout
+
+    phase = p.angle(Y)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+    # return the magnitude and the phase
+\end_layout
+
+\begin_layout Plain Layout
+
+    return w, abs(Y), phase
+\end_layout
+
+\end_inset
+
+We also need to redefine our x axis, since it is currently simply the number
+ of frequencies from 0 to 128, we need to map these to the actual values
+ of these frequencies.
+ 
+\begin_inset Newline newline
+\end_inset
+
+Since we have 
+\begin_inset Formula $N$
+\end_inset
+
+ samples per cycle, let us calculate the time duration between consecutive
+ sampling points.
+ Let us call this time 
+\begin_inset Formula $T_{s}$
+\end_inset
+
+.
+ Here
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+NT_{s}=T_{0}
+\]
+
+\end_inset
+
+Where 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ is the interval in which the function is being sampled.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+T_{s}=\frac{T_{0}}{N}
+\]
+
+\end_inset
+
+Since the DFT exists only for periodic DT functions, our sampled function
+ also has to be periodic with some time period, say 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Since we are using one cycle and suppose we are plotting from 
+\begin_inset Formula $0$
+\end_inset
+
+ to 
+\begin_inset Formula $2\pi$
+\end_inset
+
+, after 
+\begin_inset Formula $M$
+\end_inset
+
+ samples, we should reach 
+\begin_inset Formula $2\pi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+MT_{s}=2\pi
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M=\frac{2\pi}{T_{s}}=\frac{2\pi N}{T_{0}}
+\]
+
+\end_inset
+
+Therefore, the frequencies corresponding to our samples are going from 
+\begin_inset Formula $[-\frac{\pi N}{T_{0}},\frac{\pi N}{T_{0}})$
+\end_inset
+
+.
+ We make the following two observations from this analysis.
+\end_layout
+
+\begin_layout Itemize
+Increasing the number of samples increases the range of the frequencies
+ we can represent.
+ That explains the definition of
+\family typewriter
+ w
+\family default
+ in our code.
+ 
+\end_layout
+
+\begin_layout Itemize
+Notice that the discrete frequency step in our DFT result is given by the
+ total range divided by the number of samples
+\begin_inset Formula 
+\[
+\Delta\omega=\frac{\frac{2\pi N}{T_{0}}}{N}=\frac{2\pi}{T_{0}}
+\]
+
+\end_inset
+
+Therefore, increasing 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+ has the effect of decreasing the discrete frequency step.
+ We get better resolution in the frequencies on increasing 
+\begin_inset Formula $T_{0}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+The Frequency Spectrum of an Amplitude Modulated (AM) signal
+\end_layout
+
+\begin_layout Standard
+We have been given the signal 
+\begin_inset Formula $(1+0.1cos(t))cos(10t)$
+\end_inset
+
+.
+ Calculating the frequency components by hand we get:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+(1+0.1cos(t))cos(10t)=(1+\frac{0.1}{2}e^{jt}+\frac{0.1}{2}e^{-jt})(\frac{1}{2}e^{j10t}+\frac{1}{2}e^{-j10t})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{1}{2}e^{j10t}+\frac{1}{2}e^{-j10t}+\frac{0.1}{4}e^{j11t}+\frac{0.1}{4}e^{j9t}+\frac{0.1}{4}e^{-j11t}+\frac{0.1}{4}e^{-j9t}
+\]
+
+\end_inset
+
+We expect 6 peaks, at 
+\begin_inset Formula $\pm10$
+\end_inset
+
+ of amplitude 0.5, at 
+\begin_inset Formula $\pm9$
+\end_inset
+
+ and 
+\begin_inset Formula $\pm11$
+\end_inset
+
+ with amplitudes 
+\begin_inset Formula $\frac{1}{40}=0.025$
+\end_inset
+
+.
+ For phase, all the terms will have zero phase since they are all real valued.
+ We now use the same method as described before to plot the frequency spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename AM_WithoutCorrection.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of AM signal without corrections
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Again, this is not as expected.
+ This is because the time interval we have used 
+\begin_inset Formula $(0,2\pi)$
+\end_inset
+
+ is too low.
+ We increase the time interval, since stretching the time interval increases
+ the resolution of the DFT.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename AM_WithCorrection.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of AM signal with corrections
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+This plot is exactly as expected.
+ 
+\end_layout
+
+\begin_layout Subsection
+Frequency Spectrum of 
+\begin_inset Formula $sin^{3}(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $cos^{3}(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We start with the analysis of 
+\begin_inset Formula $sin^{3}(t)$
+\end_inset
+
+.
+ We split it up into its frequency components using the triple angle formula:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+sin(3t)=3sin(t)-4sin^{3}(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+sin^{3}(t)=\frac{3}{4}sin(t)-\frac{1}{4}sin(3t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+sin^{3}(t)=\frac{3}{8j}e^{jt}-\frac{3}{8j}e^{-jt}-\frac{1}{8j}e^{3jt}+\frac{1}{8j}e^{-3jt}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+sin^{3}(t)=-\frac{3j}{8}e^{jt}+\frac{3j}{8}e^{-jt}+\frac{j}{8}e^{3jt}-\frac{j}{8}e^{-3jt}
+\]
+
+\end_inset
+
+We expect 4 peaks, two at 
+\begin_inset Formula $1,-1$
+\end_inset
+
+ with phases 
+\begin_inset Formula $-\frac{\pi}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\frac{\pi}{2}$
+\end_inset
+
+, and two at 
+\begin_inset Formula $3,-3$
+\end_inset
+
+ with phases 
+\begin_inset Formula $\frac{\pi}{2}$
+\end_inset
+
+ and 
+\begin_inset Formula $-\frac{\pi}{2}$
+\end_inset
+
+.
+ We now plot the frequency spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename sin3t.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum for the signal 
+\begin_inset Formula $sin^{3}(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+The result is as expected.
+\begin_inset Newline newline
+\end_inset
+
+We now analyse the signal 
+\begin_inset Formula $cos^{3}(t)$
+\end_inset
+
+.
+ Again using the triple angle formulae we obtain
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos(3t)=4cos^{3}(t)-3cos(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos^{3}(t)=\frac{1}{4}cos(3t)+\frac{3}{4}cos(t)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos^{3}(t)=\frac{1}{8}e^{j3t}+\frac{1}{8}e^{-j3t}+\frac{3}{8}e^{jt}+\frac{3}{8}e^{jt}
+\]
+
+\end_inset
+
+We expect 4 peaks, at 
+\begin_inset Formula $\pm1$
+\end_inset
+
+ and 
+\begin_inset Formula $\pm3$
+\end_inset
+
+ all with zero phase, since all coefficients are real valued.
+ We now plot the frequency spectrum.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cos3t.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum for the signal 
+\begin_inset Formula $cos^{3}(t)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+The spectrum is exactly as we expect.
+\end_layout
+
+\begin_layout Subsection
+Frequency Spectrum of 
+\begin_inset Formula $cos(20t+5cos(t))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We consider the signal 
+\begin_inset Formula $cos(20t+5cos(t))$
+\end_inset
+
+.
+ We first plot the frequency spectrum of this signal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename cosCeption.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum for the signal 
+\begin_inset Formula $cos(20t+5cos(t))$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We attempt to explain this spectrum.
+ We see that this is a frequency modulated wave.
+ We can analyse the frequency spectrum using Bessel functions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+cos(\omega_{c}t+\beta sin(\omega_{m}t))=\sum_{k=-\infty}^{\infty}J_{k}(\beta)cos((\omega_{c}-k\omega_{m})t)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+cos(20t+5cos(t))=\sum_{k=-\infty}^{\infty}J_{k}(5)cos((20-k)t)
+\]
+
+\end_inset
+
+Where 
+\begin_inset Formula $J_{k}$
+\end_inset
+
+ is the 
+\begin_inset Formula $k^{th}$
+\end_inset
+
+ order Bessel function.
+ We see that we will get bands centered at 
+\begin_inset Formula $\pm20$
+\end_inset
+
+.
+ The amplitude of each component is proportional to the value of the Bessel
+ function.
+ Eventually at large values of 
+\begin_inset Formula $k$
+\end_inset
+
+, the amplitudes die out, hence we obtain two bands centered at 
+\begin_inset Formula $\pm20$
+\end_inset
+
+ and die out a short distance from it.
+\end_layout
+
+\begin_layout Subsection
+Frequency Spectrum of Gaussian
+\end_layout
+
+\begin_layout Standard
+We now analyse the signal 
+\begin_inset Formula $e^{-\frac{t^{2}}{2}}$
+\end_inset
+
+.
+ We note that this function is not periodic.
+ And since the DFT does not exist for a non-periodic function, we can choose
+ an interval and assume that the function is periodic.
+ We can then slowly increase the time period, and the DFT will approach
+ the Fourier Transform, because at large time periods, the function can
+ be considered approximately aperiodic.
+\begin_inset Newline newline
+\end_inset
+
+We know that the actual fourier transform for 
+\begin_inset Formula $e^{-\frac{t^{2}}{2}}$
+\end_inset
+
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathcal{F}\{e^{-\frac{t^{2}}{2}}\}=\sqrt{2\pi}e^{-\frac{\omega^{2}}{2}}
+\]
+
+\end_inset
+
+We will compare the error of the calculated DFT and the Fourier transform
+ as we increase the time interval.
+\begin_inset Newline newline
+\end_inset
+
+We will plot the DFT for the intervals 
+\begin_inset Formula $[-i\pi,i\pi)$
+\end_inset
+
+ where 
+\begin_inset Formula $i\in\{1,2....,11\}$
+\end_inset
+
+.
+ We print the maximum error between this result and the actual fourier transform.
+ 
+\begin_inset Newline newline
+\end_inset
+
+The expected plot is another Gaussian function, with the phase being zero
+ since it is real valued.
+ We then plot the resulting plot.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename gaussian.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Frequency Spectrum of an FM wave
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Maximum errors for time intervals
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-1pi, 1pi) Maximum error = 0.00649697413874839
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-2pi, 2pi) Maximum error = 1.5613434989347752e-09
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-3pi, 3pi) Maximum error = 1.3100631690576847e-14
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-4pi, 4pi) Maximum error = 4.620196861797216e-16
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-5pi, 5pi) Maximum error = 7.438494264988549e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-6pi, 6pi) Maximum error = 7.105427357601002e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-7pi, 7pi) Maximum error = 8.659739592076221e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-8pi, 8pi) Maximum error = 9.67119940904726e-16
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-9pi, 9pi) Maximum error = 4.884981308350689e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+For time interval of [-10pi, 10pi) Maximum error = 4.440892098500626e-15
+\end_layout
+
+\end_inset
+
+This is what we expected.
+ The errors are also quite within acceptable range.
+ 
+\end_layout
+
+\begin_layout Itemize
+Note that the method of normalizing the FFT result for the gaussian function
+ is different since it is aperiodic.
+ We have made a slight modification to our function to change the normalization
+ method if the function passed is a gaussian.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# gaussian curve follows a different method of normalization since it is
+ the only non
+\end_layout
+
+\begin_layout Plain Layout
+
+# periodic function we will consider.
+\end_layout
+
+\begin_layout Plain Layout
+
+if normalizeGauss:
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y = p.fftshift(abs(p.fft(y)))/N
+\end_layout
+
+\begin_layout Plain Layout
+
+    Y = Y * p.sqrt(2*p.pi)/max(Y)
+\end_layout
+
+\begin_layout Plain Layout
+
+    actualY =  p.exp(-w**2/2) * p.sqrt(2 * p.pi)
+\end_layout
+
+\begin_layout Plain Layout
+
+    maxError = max(abs(actualY-Y))
+\end_layout
+
+\begin_layout Plain Layout
+
+    phase = p.angle(Y)
+\end_layout
+
+\begin_layout Plain Layout
+
+    return w, abs(Y), phase, maxError
+\end_layout
+
+\end_inset
+
+We have chosen to take the absolute value of the fft() result.
+ This is because the samples can be assymetric about 0.
+ Due to sampling, since we don't have a completely accurate gaussian, some
+ frequency components can have small negative amplitudes.
+ Taking an absolute value and increasing the number of samples fixes this
+ problem.
+\end_layout
+
+\begin_layout Itemize
+As we increase the time interval (the time interval in one cycle) the frequency
+ spectrum comes closer and closer to the fourier transform of the gaussian,
+ because for a large period, we can approximate the function as aperiodic,
+ and we see that the error hits the order of 
+\begin_inset Formula $10^{-14}$
+\end_inset
+
+ or lower below an interval of 
+\begin_inset Formula $6\pi$
+\end_inset
+
+ centered at zero.
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+The frequency spectrum magnitude and phase plot was plotted and analysed
+ for several signals including sinusoids, AM and FM signals.
+\end_layout
+
+\begin_layout Itemize
+The FFT functions in the PyLab module in Python were used.
+\end_layout
+
+\begin_layout Itemize
+The fourier transform of a non periodic signal was approximated with an
+ error smaller than 
+\begin_inset Formula $10^{-14}$
+\end_inset
+
+ by plotting the DFT considering it to be periodic, and then increasing
+ the time period.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,1790 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 3.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\headsep 0.5cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+\size giant
+Final Examination: 
+\begin_inset Newline linebreak
+\end_inset
+
+Magnetic field due to a current loop
+\end_layout
+
+\begin_layout Date
+
+\size larger
+May 29, 2021
+\end_layout
+
+\begin_layout Author
+
+\size larger
+Saurav Sachin Kale, EE19B141
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Aim
+\end_layout
+
+\begin_layout Itemize
+To model a loop of wire carrying a given current distribution and analyse
+ the magnetic field in the z direction for x,y = 0,0
+\end_layout
+
+\begin_layout Itemize
+To perform curve fitting on the result
+\end_layout
+
+\begin_layout Itemize
+To explain the result
+\end_layout
+
+\begin_layout Section
+Theory and Psuedocode
+\end_layout
+
+\begin_layout Standard
+We are given a loop of wire of radius 
+\begin_inset Formula $a=10cm$
+\end_inset
+
+ on the x-y plane with its center at the origin and given current distribution
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+I=\frac{4\pi}{\mu_{0}}cos(\phi)exp(j\omega t)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is polar angle in cylinderical coordinates 
+\begin_inset Formula $(r,\phi,z)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+We are to find the magnetic field 
+\begin_inset Formula $\vec{B}$
+\end_inset
+
+ along the z axis from z = 1cm to z = 1000cm.
+ We use the Maxwell's equations:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{1}{\mu_{0}}\nabla\times\vec{B}=\vec{J}+\epsilon\frac{\partial}{\partial t}(\vec{E})
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\nabla\times E=-\frac{\partial\vec{B}}{\partial t}=-\frac{\partial(\nabla\times\vec{A})}{\partial t}
+\]
+
+\end_inset
+
+solving these using the lorentz gauge
+\begin_inset Formula 
+\[
+\nabla\cdot\vec{A}=-\mu_{0}\epsilon_{0}\frac{\partial V}{\partial t}
+\]
+
+\end_inset
+
+and the wave equation
+\begin_inset Formula 
+\[
+\nabla^{2}\vec{A}-\mu\epsilon\frac{\partial^{2}\vec{A}}{\partial t^{2}}=-\mu\vec{J}
+\]
+
+\end_inset
+
+A solution using Green's Function of this equation for our case is
+\begin_inset Formula 
+\[
+\vec{A}=\int_{V}\mu\vec{J}(\vec{r'})\frac{e^{-j\beta|\vec{r}-\vec{r'}|}}{4\pi|\vec{r}-\vec{r'}|}dv'
+\]
+
+\end_inset
+
+converting into our coordinate system convention we get:
+\begin_inset Formula 
+\[
+\vec{A}(r,\phi,z)=\frac{\mu_{0}}{4\pi}\int\frac{I(\phi)\hat{\phi}e^{-jkR}ad\phi}{R}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\vec{B}=\nabla\times\vec{A}
+\]
+
+\end_inset
+
+Where 
+\begin_inset Formula $\vec{R}=\vec{r}-\vec{r'}$
+\end_inset
+
+ and 
+\begin_inset Formula $k=\frac{\omega}{c}=0.1$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\vec{r}$
+\end_inset
+
+ is the position vector of where we want the field, and 
+\begin_inset Formula $\vec{r'}$
+\end_inset
+
+ is the position vector of a point on the loop.
+\begin_inset Newline newline
+\end_inset
+
+Now let us solve this analytical problem using numerical methods.
+\begin_inset Newline newline
+\end_inset
+
+We consider a cuboid with its longest side along the z axis of dimensions
+ 
+\begin_inset Formula $3\times3\times1000$
+\end_inset
+
+cm.
+ We slice this cube into 9000 cubelets, each 
+\begin_inset Formula $1\times1\times1$
+\end_inset
+
+cm.
+ 
+\begin_inset Newline newline
+\end_inset
+
+We assume the all the parameters in each cubelet are equal to that in the
+ center of the cubelet.
+ We have 9000 sampling points in the space, each representative of its cubelet,
+ with our sampling interval being 1cm.
+ We hence have the vector 
+\begin_inset Formula $\vec{r}$
+\end_inset
+
+ in cartesian coordinates.
+\begin_inset Newline newline
+\end_inset
+
+We also split the loop of wire into 100 segments, each being our approximation
+ for 
+\begin_inset Formula $\vec{dl}$
+\end_inset
+
+, the infinitesimal element on the wire.
+ Now we can find 
+\begin_inset Formula $\vec{r'}$
+\end_inset
+
+ as follows
+\begin_inset Formula 
+\[
+\vec{r'}=acos\phi\hat{x}+asin\phi\hat{y}
+\]
+
+\end_inset
+
+The integral now becomes a summation as follows
+\begin_inset Formula 
+\begin{equation}
+\vec{A}_{ijk}=\sum_{l=0}^{N-1}\frac{cos(\phi_{l}')exp(-jkR_{ijkl})\vec{dl'}}{R_{ijkl}}
+\end{equation}
+
+\end_inset
+
+Rijk can be calculated by vector subtraction and taking magnitude
+\begin_inset Formula 
+\[
+R_{ijk}=|\vec{r}-\vec{r'}|
+\]
+
+\end_inset
+
+Now for finding 
+\begin_inset Formula $\vec{B}$
+\end_inset
+
+, we know
+\begin_inset Formula 
+\[
+\vec{B}=\nabla\times\vec{A}=(\frac{\partial A_{z}}{\partial y}-\frac{\partial A_{y}}{\partial z})\hat{x}+(\frac{\partial A_{x}}{\partial z}-\frac{\partial A_{z}}{\partial x})\hat{y}+(\frac{\partial A_{y}}{\partial x}-\frac{\partial A_{x}}{\partial y})\hat{z}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B_{z}=(\frac{\partial A_{y}}{\partial x}-\frac{\partial A_{x}}{\partial y})\implies\frac{A_{y}(\Delta x,0,z)-A_{y}(-\Delta x,0,z)}{2\Delta x}-\frac{A_{x}(0,\Delta y,z)-A(0,-\Delta y,z)}{2\Delta y}
+\]
+
+\end_inset
+
+Since 
+\begin_inset Formula $\Delta x=\Delta y=1cm$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+B_{z}=\frac{A_{y}(\Delta x,0,z)-A_{y}(-\Delta x,0,z)-A_{x}(0,\Delta y,z)+A_{x}(0,-\Delta y,z)}{2}
+\]
+
+\end_inset
+
+Now we have converted this problem to a numerical methods problem.
+ We now devise a psuedocode for this problem.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+u = number of x samples
+\end_layout
+
+\begin_layout Plain Layout
+
+v = number of y samples
+\end_layout
+
+\begin_layout Plain Layout
+
+w = number of z samples
+\end_layout
+
+\begin_layout Plain Layout
+
+a = radius of the loop of wire
+\end_layout
+
+\begin_layout Plain Layout
+
+I = current distribution (here Io = 1e7)
+\end_layout
+
+\begin_layout Plain Layout
+
+A = magnetic vector potential initialized to zero
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+xCoords = {-(x-1)/2, ...
+ -1, 0, 1, ...
+ , (x-1)/2}
+\end_layout
+
+\begin_layout Plain Layout
+
+yCoords = {-(y-1)/2, ...
+ -1, 0, 1, ...
+ , (y-1)/2}
+\end_layout
+
+\begin_layout Plain Layout
+
+zCoords = {1, 2, ...
+ , 1000}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+r = (xCoords, yCoords, zCoords)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+phi = {0, 2*pi/100, 4*pi/100, ..
+ 198*pi/100}
+\end_layout
+
+\begin_layout Plain Layout
+
+I = Io*cos(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+dphi = 2*pi/100
+\end_layout
+
+\begin_layout Plain Layout
+
+magPhi = a*dphi
+\end_layout
+
+\begin_layout Plain Layout
+
+ringpos = (acos(phi), asin(phi))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+dl = (-magPhi*sin(phi), magPhi*cos(phi))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+J = I*dl
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+foreach ringpos:
+\end_layout
+
+\begin_layout Plain Layout
+
+	R = |r - ringpos|
+\end_layout
+
+\begin_layout Plain Layout
+
+	A += (cos(phi_at_that_ringpos)*exp(-jkR)/R)*dl
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Bz = ((A_y[1, 0, all_z] - A_y[-1, 0, all_z] 
+\end_layout
+
+\begin_layout Plain Layout
+
+			- A_x[0, 1, all_z] + A_x[0, -1, all_z])/2)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Find-Bz
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Code and Results
+\end_layout
+
+\begin_layout Itemize
+Defining the control variables
+\family typewriter
+
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# mu0
+\end_layout
+
+\begin_layout Plain Layout
+
+mu0 = 8.85418782e-12
+\end_layout
+
+\begin_layout Plain Layout
+
+# I0
+\end_layout
+
+\begin_layout Plain Layout
+
+I0 = 4*p.pi/mu0
+\end_layout
+
+\begin_layout Plain Layout
+
+N = 100
+\end_layout
+
+\begin_layout Plain Layout
+
+# Dimensions
+\end_layout
+
+\begin_layout Plain Layout
+
+u = 3
+\end_layout
+
+\begin_layout Plain Layout
+
+v = 3
+\end_layout
+
+\begin_layout Plain Layout
+
+w = 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+a = 10
+\end_layout
+
+\begin_layout Plain Layout
+
+# k = w / c (not to be confused by i, j, k so im calling it wByC)
+\end_layout
+
+\begin_layout Plain Layout
+
+wByC = 0.1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Breaking the volume into a 
+\begin_inset Formula $3\times3\times1000$
+\end_inset
+
+ mesh
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Q2
+\end_layout
+
+\begin_layout Plain Layout
+
+# dividing the volume into 3 x 3 x 1000
+\end_layout
+
+\begin_layout Plain Layout
+
+xCoords = p.linspace(-(u - 1)/2, (u - 1)/2, u)
+\end_layout
+
+\begin_layout Plain Layout
+
+yCoords = p.linspace(-(v - 1)/2, (v - 1)/2, v)
+\end_layout
+
+\begin_layout Plain Layout
+
+zCoords = p.linspace(1, w, w)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Breaking the loop into 100 sections and finding current elements Idl.
+ We also obtain vectors 
+\begin_inset Formula $\vec{r_{l}'}$
+\end_inset
+
+ and 
+\begin_inset Formula $\vec{dl_{l}}$
+\end_inset
+
+ where 
+\begin_inset Formula $l$
+\end_inset
+
+ indexes the segments of the loop.
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Q3
+\end_layout
+
+\begin_layout Plain Layout
+
+# dividing angle into segments to obtain 100 dl segments
+\end_layout
+
+\begin_layout Plain Layout
+
+phi = p.linspace(0, 2*p.pi, N+1)[:-1]
+\end_layout
+
+\begin_layout Plain Layout
+
+# initialize magnitude of current I.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+# we can ignore exp(jwt) because at no point in the analysis do we involved
+ time
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Q4
+\end_layout
+
+\begin_layout Plain Layout
+
+# so the exp(jwt) factor will be present in Bz, 
+\end_layout
+
+\begin_layout Plain Layout
+
+# and when we take magnitude, it will vanish
+\end_layout
+
+\begin_layout Plain Layout
+
+I = I0*p.cos(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+ringpos_x = a*p.cos(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+ringpos_y = a*p.sin(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+# dphi = 2pi/100
+\end_layout
+
+\begin_layout Plain Layout
+
+dphi = phi[1] - phi[0]
+\end_layout
+
+\begin_layout Plain Layout
+
+# |dl| = radius * dphi
+\end_layout
+
+\begin_layout Plain Layout
+
+mag_dl = a*dphi
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# dl vector = magnitude * direction
+\end_layout
+
+\begin_layout Plain Layout
+
+dl_x = -mag_dl*p.sin(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+dl_y = mag_dl*p.cos(phi)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# current element J = I*dl
+\end_layout
+
+\begin_layout Plain Layout
+
+JX = I*dl_x
+\end_layout
+
+\begin_layout Plain Layout
+
+JY = I*dl_y
+\end_layout
+
+\end_inset
+
+We are taking current equal to 
+\begin_inset Formula $I_{0}cos(\phi)$
+\end_inset
+
+ because at no point do we take any time dependent operations, therefore
+ the 
+\begin_inset Formula $exp(-j\omega t)$
+\end_inset
+
+ will be visible as it is in 
+\begin_inset Formula $Bz$
+\end_inset
+
+.
+ When we take magnitude, it disappears.
+ So it does not really have any effect on 
+\begin_inset Formula $|Bz|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Plotting JX and JY yeilds the following current element distribution on
+ the x-y plane
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_1.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Vector plot of the current elements on the x-y plane
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Defining a vectorized function calc(l) for calculating 
+\begin_inset Formula $R_{ijkl}=|\vec{r_{ijk}}-\vec{r_{l}'}|$
+\end_inset
+
+ for all 
+\begin_inset Formula $\vec{r_{ijk}}$
+\end_inset
+
+.
+ We can vectorize this function using meshgrid.
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Q 5 and 6
+\end_layout
+
+\begin_layout Plain Layout
+
+# calc function
+\end_layout
+
+\begin_layout Plain Layout
+
+def calc(l):
+\end_layout
+
+\begin_layout Plain Layout
+
+    # create meshgrid
+\end_layout
+
+\begin_layout Plain Layout
+
+    xx, yy, zz = p.meshgrid(xCoords, yCoords, zCoords, indexing='ij')
+\end_layout
+
+\begin_layout Plain Layout
+
+    # find Rijk vector
+\end_layout
+
+\begin_layout Plain Layout
+
+    xx = xx - ringpos_x[l]
+\end_layout
+
+\begin_layout Plain Layout
+
+    yy = yy - ringpos_y[l]
+\end_layout
+
+\begin_layout Plain Layout
+
+    # find |Rijk|
+\end_layout
+
+\begin_layout Plain Layout
+
+    Rijk = p.sqrt(xx**2 + yy**2 + zz**2)
+\end_layout
+
+\begin_layout Plain Layout
+
+    # return x component and y component of A vector
+\end_layout
+
+\begin_layout Plain Layout
+
+    return (I[l]/I0)*p.exp(complex(0, -1)*wByC*Rijk)*dl_x[l]/Rijk, 
+\end_layout
+
+\begin_layout Plain Layout
+
+			(I[l]/I0)*p.exp(complex(0, -1)*wByC*Rijk)*dl_y[l]/Rijk
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Computing 
+\begin_inset Formula $\vec{A_{ijk}}$
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# initialize A_x and A_y
+\end_layout
+
+\begin_layout Plain Layout
+
+A_x = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+A_y = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+# Q7
+\end_layout
+
+\begin_layout Plain Layout
+
+# populate all the values of A_x and A_y
+\end_layout
+
+\begin_layout Plain Layout
+
+# we have to use a loop here because for vectorized operations the dimensions
+\end_layout
+
+\begin_layout Plain Layout
+
+# of the two arrays have to match, which would be cumbersome,
+\end_layout
+
+\begin_layout Plain Layout
+
+# because we have 100 points on our loop, but 9000 points in our mesh
+\end_layout
+
+\begin_layout Plain Layout
+
+for l in range(N):
+\end_layout
+
+\begin_layout Plain Layout
+
+    dA_x, dA_y = calc(l)
+\end_layout
+
+\begin_layout Plain Layout
+
+    if l == 0:
+\end_layout
+
+\begin_layout Plain Layout
+
+        A_x = dA_x
+\end_layout
+
+\begin_layout Plain Layout
+
+        A_y = dA_y
+\end_layout
+
+\begin_layout Plain Layout
+
+    else:
+\end_layout
+
+\begin_layout Plain Layout
+
+        A_x += dA_x
+\end_layout
+
+\begin_layout Plain Layout
+
+        A_y += dA_y
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Computing 
+\begin_inset Formula $Bz$
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Q8
+\end_layout
+
+\begin_layout Plain Layout
+
+# B = del x A
+\end_layout
+
+\begin_layout Plain Layout
+
+# B(z) = (A_y[deltaX, 0, z] - A_y[-deltaX, 0, z] 
+\end_layout
+
+\begin_layout Plain Layout
+
+			- A_x[0, deltaY, z] + A[0, -deltaY, z])/2
+\end_layout
+
+\begin_layout Plain Layout
+
+Bz = (A_y[u//2 + 1, v//2, :] - A_y[u//2 - 1, v//2, :] 
+\end_layout
+
+\begin_layout Plain Layout
+
+		- A_x[u//2, v//2 + 1, :] 
+\end_layout
+
+\begin_layout Plain Layout
+
+				+ A_x[u//2, v//2 - 1, :])/2
+\end_layout
+
+\end_inset
+
+We obtain the following plot
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_2.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Variation of Magnitude of Magnetic Field 
+\begin_inset Formula $\vec{B}$
+\end_inset
+
+ along z (loglog)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We can see it is approximately zero.
+ It has to be zero, because if we notice the current distribution from Figure
+ 1, and choose mirrored elements across the X axis, we can verify by the
+ right hand rule that the z components should cancel.
+ So we expect zero.
+ And the small errors we are getting are due to the precision of our model.
+\end_layout
+
+\begin_layout Itemize
+Using the method of least squares in order to fit the curve 
+\begin_inset Formula $cz^{b}$
+\end_inset
+
+ to the data.
+ We use SciPy's lstsq() function
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# Q10
+\end_layout
+
+\begin_layout Plain Layout
+
+# curve fitting using lstsq
+\end_layout
+
+\begin_layout Plain Layout
+
+M = p.c_[p.log10(zCoords), p.ones(w)]
+\end_layout
+
+\begin_layout Plain Layout
+
+G = p.log10(abs(Bz))
+\end_layout
+
+\begin_layout Plain Layout
+
+r = scipy.linalg.lstsq(M, G)[0]
+\end_layout
+
+\begin_layout Plain Layout
+
+c = 10**(r[1])
+\end_layout
+
+\begin_layout Plain Layout
+
+b = r[0]
+\end_layout
+
+\begin_layout Plain Layout
+
+print("Least Squares fitting result")
+\end_layout
+
+\begin_layout Plain Layout
+
+print("c = " + str(c))
+\end_layout
+
+\begin_layout Plain Layout
+
+print("b = " + str(b))
+\end_layout
+
+\begin_layout Plain Layout
+
+fit = c*(zCoords**b)
+\end_layout
+
+\end_inset
+
+We plot the fit along with the data and we obtain the following fit
+\begin_inset listings
+lstparams "basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Least Squares fitting result
+\end_layout
+
+\begin_layout Plain Layout
+
+c = 4.4167464316159245e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+b = -0.9855140244629008
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_3.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fitting the curve 
+\begin_inset Formula $cz^{b}$
+\end_inset
+
+ to the magnetic field data
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We see that 
+\begin_inset Formula $Bz$
+\end_inset
+
+ is nonzero, albeit a very small value.
+ We see that approximately 
+\begin_inset Formula $Bz\propto\frac{1}{z}$
+\end_inset
+
+ for this case.
+ This doesn't provide any real conclusion though, since this is simply the
+ decay rate of the numerical errors the computer made in its calculations.
+ We cannot comment about the magnetic field from this result, since the
+ analytical method gives us zero.
+ 
+\end_layout
+
+\begin_layout Section
+Statics case
+\end_layout
+
+\begin_layout Standard
+Now let us see what happens if we do the same for statics case.
+ If the current through the loop is now constant with respect to time, but
+ not space
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+I=\frac{4\pi}{\mu_{0}}cos(\phi)
+\]
+
+\end_inset
+
+Now we know from the maxwell's equations in magnetostatics case for line
+ currents
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\vec{A}(\vec{r})=\frac{\mu_{0}}{4\pi}\int\frac{\vec{I}}{r}dl'
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\vec{A}(r,\phi,z)=\frac{\mu_{0}}{4\pi}\int\frac{I(\phi)\hat{\phi}ad\phi}{R}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\vec{A}_{ijk}=\sum_{l=0}^{N-1}\frac{cos(\phi_{l}')\vec{dl'}}{R_{ijkl}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+In statics case we will have to change a couple of things in our code.
+\end_layout
+
+\begin_layout Itemize
+We change 
+\begin_inset Formula $k=\frac{\omega}{c}=0$
+\end_inset
+
+.
+ The reason we do this is because we want the exponential term in equation
+ (1) function to disappear to match with the equation (2).
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# we need our dAx, dAy = dl_x/Rijk, dl_y/Rijk, 
+\end_layout
+
+\begin_layout Plain Layout
+
+#so we remove the exponential part by setting the exponent to zero
+\end_layout
+
+\begin_layout Plain Layout
+
+# so we do that by setting k = w / c to zero
+\end_layout
+
+\begin_layout Plain Layout
+
+wByC = 0
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Now we get the following plots
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_4.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Current element distribution in statics case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_5.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Variation of Magnitude of Magnetic Field 
+\begin_inset Formula $\vec{B}$
+\end_inset
+
+ along z (loglog) for statics case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We get the following curve fit results
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Statics case
+\end_layout
+
+\begin_layout Plain Layout
+
+Least Squares fitting result
+\end_layout
+
+\begin_layout Plain Layout
+
+c = 1.2004553457040477e-15
+\end_layout
+
+\begin_layout Plain Layout
+
+b = -0.8685902540971611
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_6.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fitting the curve 
+\begin_inset Formula $cz^{b}$
+\end_inset
+
+ to the magnetic field data for statics case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We again get approximately zero, which is as expected again by applying
+ the right hand rule on a pair of current elements as explained earlier.
+ The time dependence of the current is such that 
+\begin_inset Formula $|Bz|$
+\end_inset
+
+ does not change with time.
+\end_layout
+
+\begin_layout Section
+Constant Current case
+\end_layout
+
+\begin_layout Standard
+If we assume that the current has no dependence on space as well as time
+\begin_inset Formula 
+\[
+I=I_{0}=\frac{4\pi}{\mu_{0}}
+\]
+
+\end_inset
+
+We use the same procedure as that statics case, except in the summation
+ we make the following change
+\begin_inset Formula 
+\begin{equation}
+\vec{A}_{ijk}=\sum_{l=0}^{N-1}\frac{dl'}{R_{ijkl}}
+\end{equation}
+
+\end_inset
+
+We now obtain the following plots 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_7.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Current element distribution in constant current case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_8.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Variation of Magnitude of Magnetic Field 
+\begin_inset Formula $\vec{B}$
+\end_inset
+
+ along z (loglog) for constant current case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+We get the following curve fit results
+\begin_inset listings
+lstparams "language=Python,basicstyle={\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Constant Current case
+\end_layout
+
+\begin_layout Plain Layout
+
+Least Squares fitting result
+\end_layout
+
+\begin_layout Plain Layout
+
+c = 215.8579024434782
+\end_layout
+
+\begin_layout Plain Layout
+
+b = -2.8261920569267023
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Figure_9.png
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Fitting the curve 
+\begin_inset Formula $cz^{b}$
+\end_inset
+
+ to the magnetic field data for constant current case
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+We can see that the curve is nonzero as expected, since we know that by
+ Biot-Savarts Law
+\begin_inset Formula 
+\[
+\vec{B}(\vec{r})=\frac{\mu_{0}}{4\pi}I\int_{C}\frac{\vec{dl}\times\vec{r'}}{|\vec{r'}|^{3}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Bz=\frac{\mu_{0}}{4\pi}\frac{2\pi a^{2}I}{(z^{2}+a^{2})^{\frac{3}{2}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Bz=\frac{2\pi a^{2}}{(z^{2}+a^{2})^{\frac{3}{2}}}
+\]
+
+\end_inset
+
+for large z,
+\begin_inset Formula 
+\[
+Bz\propto\frac{1}{z^{3}}
+\]
+
+\end_inset
+
+and we see that in our fit, 
+\begin_inset Formula $b\approx-3$
+\end_inset
+
+, which matches our analysis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Itemize
+The magnetic field along the z axis for loop of wire for various current
+ configurations, namely time and space varying, only space varying and constant
+ current configurations was modelled as a numerical methods problem
+\end_layout
+
+\begin_layout Itemize
+Vectorized Pylab functions were used in order to speed up the calculations
+ and avoid loops as far as possible
+\end_layout
+
+\begin_layout Itemize
+The resulting data was fitted to the curve 
+\begin_inset Formula $cz^{b}$
+\end_inset
+
+ and found the constants 
+\begin_inset Formula $c$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ for 
+\end_layout
+
+\begin_layout Itemize
+The meaning behind the obtained graphs was analysed and compared with the
+ expected result.
+\end_layout
+
+\end_body
+\end_document
