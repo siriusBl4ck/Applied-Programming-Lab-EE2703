@@ -1,0 +1,47 @@
+There could be junk here!
+R_lol 0 0 0
+Since this portion does not belong to circuit definition.
+.circuit#Hello
+     V1 GND 1 10    # There can be comment here
+R_thor 1 2 1e3
+R2 2 3 1e3
+R3 3 4 1.1e3
+R4 4 5 3.141596e3# comment can be in any line
+R5 2 GND 2e3
+
+#.circuit
+
+R6 3 GND 2e3
+R7 4 GND 2e13
+R_wow    5 GND    2e3
+.end
+There could be junk here!
+Since this portion does not belong to circuit definition.
+
+#ll
+     .circuit#Hello
+V1 GND 1 10    # There can be comment here
+R3 3 4d 1e3
+     R4 4 5 1e3# comment can be in any line
+
+E1 A2 3 5 6 23
+
+R6 3 GND 2e3
+R7 4     GND 2e3
+#R8 5 GND 2e3
+.end
+
+.circuit#Hola
+V1 GND 1 10    # There can be comment here
+R1 1 2 1e3
+R2       2 3 1e3
+R3 3 4 1e3
+R4 4 5 1e3# comment can be in any line
+
+H1 2 3 V2 23#cuz me happay
+F1 2 3 V3 23 #233
+.end
+R6 3 GND 2e3
+R6 4 GND 2e3
+#R8 5 GND 2e3
+#.end

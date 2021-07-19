@@ -1,0 +1,25 @@
+#.ac V1 50
+.circuit
+R2 2 GND 2e3
+
+V1 GND    1 ac 2      0.5236
+
+
+R1 1 2 1e3
+
+R3 2 GND 2e3
+.end
+.ac V1 50
+
+#.ac V1 50
+.circuit
+R2 2 GND 2e3
+
+V1 GND    1 ac 2      0.5236
+
+#.ac V1 50
+R1 1 2 1e3
+#
+R3 2 GND 2e3
+.end
+.ac V1 50
